@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Bridgeland Key Club | Gallery</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Inline CSS for animated “active” box around current nav link, hover‐expand, carousel styling, and submit‐box -->
+  <style>
+    .nav-links a {
+      position: relative;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+    .nav-links a:hover {
+      transform: scale(1.1);
+    }
+    .nav-links a.active {
+      background-color: #FFD700; /* Gold */
+      color: #00539c;            /* Blue text */
+      border-radius: 4px;
+      animation: highlightBox 0.4s ease-out;
+    }
+    @keyframes highlightBox {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* ====== Carousel Styles ====== */
+    .carousel-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      padding: 0 100px; /* allows a peek of neighboring slides */
+      box-sizing: content-box;
+    }
+    .carousel-slide {
+      min-width: 600px;       /* makes each image large */
+      margin: 0 20px;         /* spacing between slides */
+      flex-shrink: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background: #ddd;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 400px;          /* adjust height as needed */
+      object-fit: cover;
+      display: block;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .carousel-button:focus {
+      outline: none;
+    }
+    .carousel-button.prev {
+      left: 10px;
+    }
+    .carousel-button.next {
+      right: 10px;
+    }
+    .carousel-button svg {
+      width: 20px;
+      height: 20px;
+      fill: #333;
+    }
+
+    /* ====== “Submit your photos” Box ====== */
+    .submit-box {
+      border: 2px dashed #00539c;
+      background-color: #f9f9f9;
+      padding: 1rem;
+      max-width: 300px;
+      margin: 2rem auto;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .submit-box p {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #00539c;
+    }
+
+    /* ====== Responsive Adjustments ====== */
+    @media (max-width: 768px) {
+      .carousel-slide {
+        min-width: 300px;
+        margin: 0 10px;
+      }
+      .carousel-container {
+        padding: 0 20px;
+      }
+    }
+    @media (max-width: 480px) {
+      .carousel-slide {
+        min-width: 250px;
+        margin: 0 5px;
+      }
+      .carousel-container {
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== NAVBAR / HEADER ========== -->
+  <header>
+    <div class="container nav-container">
+      <a href="about.html" class="logo"><span>Bridgeland Key Club</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="menu-toggle" id="menuToggle">☰</div>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Photo Gallery</h1>
+      <p>Snapshots from Our Service Projects</p>
+    </div>
+  </section>
+
+  <!-- ========== MAIN CONTENT: Carousel Gallery ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="carousel-container">
+        <button class="carousel-button prev" id="prevBtn">
+          <!-- Left Arrow SVG -->
+          <svg viewBox="0 0 20 20"><path d="M12.5 16.5l-1.06 1.06L4.38 11.5l7.06-6.06L12.5 6.88 7.62 11.5l4.88 5z"/></svg>
+        </button>
+        <div class="carousel-track" id="carouselTrack">
+          <!-- JavaScript will populate all 13 slides here -->
+        </div>
+        <button class="carousel-button next" id="nextBtn">
+          <!-- Right Arrow SVG -->
+          <svg viewBox="0 0 20 20"><path d="M7.5 3.5l1.06-1.06L15.62 8.5l-7.06 6.06L7.5 13.12 12.38 8.5 7.5 3.5z"/></svg>
+        </button>
+      </div>
+      <p style="margin-top: 1rem; color: #555; text-align: center;">
+        * Click the arrows to slide through photos.
+      </p>
+
+      <!-- ====== Clickable “Submit your photos” Box ====== -->
+      <a
+        href="https://drive.google.com/drive/folders/1D2xyWppH4um-MZcyVmzUrb5pNZ2ftnKuP9f1XQUk4HTI1IE4ngnFx3tFi1gymIwFJ1hCJSq0?usp=sharing"
+        target="_blank"
+        style="text-decoration: none;"
+      >
+        <div class="submit-box">
+          <p>Submit your photos</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Bridgeland Key Club. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#" class="social-link">Facebook</a>
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks   = document.querySelector(".nav-links");
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  </script>
+
+  <!-- Script to add “active” class for current nav link -->
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      const currentPage = window.location.pathname.split('/').pop();
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+
+  <!-- Carousel Functionality + Dynamic Slide Generation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const track      = document.getElementById('carouselTrack');
+      const prevButton = document.getElementById('prevBtn');
+      const nextButton = document.getElementById('nextBtn');
+      const totalImages = 13;             // Number of photos in KC-Photos
+      const folderPath  = 'assets/KC-Photos/';
+
+      // 1) Dynamically create 13 slide divs and append them:
+      for (let i = 1; i <= totalImages; i++) {
+        const slideDiv = document.createElement('div');
+        slideDiv.className = 'carousel-slide';
+
+        const img = document.createElement('img');
+        img.src = folderPath + 'KC' + i + '.jpg';
+        img.alt = 'KC Photo ' + i;
+
+        slideDiv.appendChild(img);
+        track.appendChild(slideDiv);
+      }
+
+      // 2) Once slides are in place, grab them and position each horizontally:
+      const slides = Array.from(track.children);
+      // Calculate slideWidth = actual width + left/right margin (20px each)
+      const slideWidth = slides[0].getBoundingClientRect().width + 40;
+      let currentIndex = 0;
+
+      slides.forEach((slide, index) => {
+        slide.style.left = (slideWidth * index) + 'px';
+      });
+
+      // 3) Function to move track to the correct slide index:
+      function moveToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        track.style.transform = 'translateX(-' + (slideWidth * index) + 'px)';
+        currentIndex = index;
+      }
+
+      // 4) Hook up Prev/Next buttons:
+      prevButton.addEventListener('click', () => {
+        moveToSlide(currentIndex - 1);
+      });
+      nextButton.addEventListener('click', () => {
+        moveToSlide(currentIndex + 1);
+      });
+
+      // (Optional) Auto-advance every 5 seconds:
+      // setInterval(() => {
+      //   moveToSlide(currentIndex + 1);
+      // }, 5000);
+    });
+  </script>
+</body>
+</html>

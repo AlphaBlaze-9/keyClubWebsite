@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bridgeland Key Club | About</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Inline CSS for animated “active” box around current nav link, hover-expand, and centered content -->
+  <style>
+    /* ===== Nav link effects ===== */
+    .nav-links a {
+      position: relative;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+    .nav-links a:hover { transform: scale(1.1); }
+    .nav-links a.active {
+      background-color: #FFD700; /* Brand Yellow */
+      color: #00539c;            /* Blue text */
+      border-radius: 4px;
+      animation: highlightBox 0.4s ease-out;
+    }
+    @keyframes highlightBox {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    /* ===== Center the hero text and main content ===== */
+    .hero-content { text-align: center; }
+    #content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* ===== Requirements section styling ===== */
+    .requirements-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:1.5rem;
+      justify-content:center;
+      margin:2rem 0 3rem;
+    }
+    .requirement-card{
+      background:rgba(255,215,0,0.15); /* translucent brand yellow */
+      border:2px solid #FFD700;
+      border-radius:8px;
+      padding:1.25rem 1.25rem;
+      width:260px;
+      text-align:center;
+      box-shadow:0 2px 6px rgba(0,0,0,0.05);
+    }
+    .requirement-card h4{
+      margin:0 0 .5rem;
+      font-size:1.5rem;
+      color:#4d2e00; /* deep warm brown for contrast */
+    }
+    .requirement-card p{
+      margin:0;
+      font-size:1rem;
+      line-height:1.35;
+    }
+
+    /* ===== Strikes & Standings ===== */
+    .strike-lists{ text-align:center; margin:0 auto 3rem; max-width:700px; }
+    .strike-lists h4{ color:#8B4513; margin:.6rem 0; }
+    .strike-lists ul{ margin:.25rem 0 1.25rem 0; list-style-position:inside; padding:0; }
+    .strike-lists li{ margin-bottom:.45rem; }
+  </style>
+</head>
+<body>
+  <!-- ========== NAVBAR / HEADER ========== -->
+  <header>
+    <div class="container nav-container">
+      <a href="about.html" class="logo"><span>Bridgeland Key Club</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="menu-toggle" id="menuToggle">☰</div>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>About Us</h1>
+      <p>Who We Are &amp; What We Stand For</p>
+    </div>
+  </section>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <section class="section">
+    <div class="container">
+      <div id="content"></div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Bridgeland Key Club. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#" class="social-link">Facebook</a>
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.querySelector(".nav-links");
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  </script>
+
+  <!-- Script to add “active” class and animate current nav link -->
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      const currentPage = window.location.pathname.split('/').pop();
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+
+  <!-- Inline JS to populate About page content -->
+  <script>
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = `
+      <h2>About Bridgeland Key Club</h2>
+      <p>
+        Bridgeland Key Club is a student-led community service organization focused on leadership, character building, and serving others. We partner with local nonprofits, schools, and community leaders to make a real difference.
+      </p>
+      <p>
+        <strong>Our Mission:</strong> Empower student members to develop leadership skills while giving back to our community through hands-on projects.
+      </p>
+      <p>
+        <strong>Our Values:</strong> Service, Leadership, Inclusivity, Integrity, Teamwork.
+      </p>
+
+      <h3>Meeting &amp; Social Requirements</h3>
+      <div class="requirements-grid">
+        <div class="requirement-card">
+          <h4>15 Hours</h4>
+          <p>are required for credit <br/>this semester</p>
+        </div>
+        <div class="requirement-card">
+          <h4>30 Hours Total</h4>
+          <p>are needed this academic<br/>year for credit</p>
+        </div>
+        <div class="requirement-card">
+          <h4>2 Socials</h4>
+          <p>are required this<br/>semester</p>
+        </div>
+        <div class="requirement-card">
+          <h4>4 Total Social</h4>
+          <p>must be attended this<br/>school year</p>
+        </div>
+      </div>
+
+      <h3>Strikes &amp; Standings</h3>
+      <div class="strike-lists">
+        <h4>Members can be given strikes for the following reasons:</h4>
+        <ul>
+          <li>Not attending or being late to an event you signed up for</li>
+          <li>Cancelling less than 24 hours prior to an event</li>
+        </ul>
+        <h4>Members will be immediately terminated and stricken from the record for the following reasons:</h4>
+        <ul>
+          <li>Receiving three strikes</li>
+          <li>Fraudulently reporting attendance / donations</li>
+          <li>Academic dishonesty</li>
+        </ul>
+      </div>
+    `;
+  </script>
+</body>
+</html>

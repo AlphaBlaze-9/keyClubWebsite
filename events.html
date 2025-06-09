@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bridgeland Key Club | Events</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Inline CSS for navbar, calendar, and events styling -->
+  <style>
+    /* NavLink Styles */
+    .nav-links a {
+      position: relative;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .nav-links a:hover { transform: scale(1.1); }
+    .nav-links a.active {
+      background-color: #FFD700; /* Gold */
+      color: #00539c;            /* Blue text */
+      border-radius: 4px;
+      animation: highlightBox 0.4s ease-out;
+    }
+    @keyframes highlightBox {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    /* Wrapper puts list & calendar side-by-side */
+    .events-calendar-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      align-items: flex-start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Upcoming Events List */
+    .events-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;                 /* override earlier centering margins */
+      flex: 1 1 260px;           /* grow/shrink but keep min width */
+      max-width: 400px;
+    }
+    .events-list li {
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+      color: #333;
+    }
+    .events-list li strong { color: #00539c; }
+
+    /* Calendar Container */
+    .calendar-container {
+      flex: 1 1 320px;
+      max-width: 600px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #00539c;
+      color: #fff;
+      padding: 0.75rem 1rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .calendar-nav-button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .calendar-nav-button:hover { transform: scale(1.2); }
+    .calendar-table          { width: 100%; border-collapse: collapse; }
+    .calendar-table th,
+    .calendar-table td       {
+      width: 14.28%;
+      text-align: center;
+      padding: 0.75rem 0;
+      border: 1px solid #eee;
+    }
+    .calendar-table th       { background-color: #f5f5f5; font-weight: normal; color: #333; }
+
+    .calendar-day            { cursor: default; position: relative; }
+    .calendar-day.event      {
+      background-color: #FFD700;
+      color: #00539c;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .calendar-day.today      { border: 2px solid #00539c; border-radius: 4px; }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      .calendar-table th,
+      .calendar-table td     { padding: 0.5rem 0; }
+      .calendar-header       { font-size: 1rem; }
+      .calendar-nav-button   { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== NAVBAR / HEADER ========== -->
+  <header>
+    <div class="container nav-container">
+      <a href="about.html" class="logo"><span>Bridgeland Key Club</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="menu-toggle" id="menuToggle">☰</div>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Scheduled Events</h1>
+      <p>Mark Your Calendars</p>
+    </div>
+  </section>
+
+  <!-- ========== MAIN CONTENT: Events List + Calendar ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="events-calendar-wrapper">
+        <!-- Upcoming Events Box -->
+        <ul class="events-list" id="eventsList">
+          <!-- Populated by JavaScript -->
+        </ul>
+
+        <!-- Calendar Container -->
+        <div class="calendar-container" id="calendarContainer">
+          <div class="calendar-header">
+            <button class="calendar-nav-button" id="prevMonthBtn">&laquo;</button>
+            <span id="calendarHeaderText"></span>
+            <button class="calendar-nav-button" id="nextMonthBtn">&raquo;</button>
+          </div>
+          <table class="calendar-table">
+            <thead>
+              <tr>
+                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
+                <th>Thu</th><th>Fri</th><th>Sat</th>
+              </tr>
+            </thead>
+            <tbody id="calendarBody"><!-- Populated by JS --></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Bridgeland Key Club. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#" class="social-link">Facebook</a>
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks   = document.querySelector(".nav-links");
+    menuToggle.addEventListener("click", () => navLinks.classList.toggle("active"));
+  </script>
+
+  <!-- Highlight Active Nav Link -->
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === window.location.pathname.split('/').pop())
+        link.classList.add('active');
+    });
+  </script>
+
+  <!-- Calendar & Events Logic -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      /* 1) Define events with ISO dates */
+      const events = {
+        "2025-05-15": "Food Drive Kickoff at Main Auditorium",
+        "2025-06-05": "Park Cleanup at Willow Tree Park (9 AM–12 PM)",
+        "2025-07-10": "Senior Center Visit at Sunshine Senior Center (2 PM–4 PM)",
+        "2025-08-22": "Back-to-School Supply Drive at Bridgeland High (10 AM–1 PM)",
+        "2025-09-14": "Club Kickoff Meeting (All Members, 3 PM–5 PM)"
+      };
+
+      /* 2) Populate Upcoming Events List */
+      const eventsListEl = document.getElementById("eventsList");
+      Object.keys(events).sort().forEach(dateStr => {
+        const [y, m, d] = dateStr.split("-");
+        const formatted = new Date(y, m-1, d).toLocaleDateString("en-US",
+                           { month:"long", day:"numeric", year:"numeric" });
+        eventsListEl.insertAdjacentHTML("beforeend",
+          `<li><strong>${formatted}:</strong> ${events[dateStr]}</li>`);
+      });
+
+      /* 3) Calendar state */
+      let currentYear  = new Date().getFullYear();
+      let currentMonth = new Date().getMonth();   // 0-based
+
+      /* Helper: render calendar */
+      function renderCalendar(year, month) {
+        const header      = document.getElementById("calendarHeaderText");
+        const body        = document.getElementById("calendarBody");
+        body.innerHTML    = "";
+        header.textContent= new Date(year, month).toLocaleDateString("en-US",
+                           { month:"long", year:"numeric" });
+
+        const firstDayIdx = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month+1, 0).getDate();
+
+        let date = 1;
+        for (let r=0; r<6; r++) {
+          const tr = document.createElement("tr");
+          for (let c=0; c<7; c++) {
+            const td = document.createElement("td");
+            if (r===0 && c<firstDayIdx || date>daysInMonth) {
+              td.textContent = "";
+            } else {
+              td.textContent = date;
+              td.classList.add("calendar-day");
+
+              const iso = `${year}-${String(month+1).padStart(2,"0")}-${String(date).padStart(2,"0")}`;
+              if (events[iso]) {
+                td.classList.add("event");
+                td.title = events[iso];
+                td.onclick = () => alert(events[iso]);
+              }
+              const today = new Date();
+              if (today.getFullYear()===year && today.getMonth()===month && today.getDate()===date)
+                td.classList.add("today");
+
+              date++;
+            }
+            tr.appendChild(td);
+          }
+          body.appendChild(tr);
+          if (date > daysInMonth) break;
+        }
+      }
+
+      /* 4) Month nav buttons */
+      document.getElementById("prevMonthBtn").onclick = () => {
+        currentMonth--; if (currentMonth<0){ currentMonth=11; currentYear--; }
+        renderCalendar(currentYear, currentMonth);
+      };
+      document.getElementById("nextMonthBtn").onclick = () => {
+        currentMonth++; if (currentMonth>11){ currentMonth=0; currentYear++; }
+        renderCalendar(currentYear, currentMonth);
+      };
+
+      /* 5) Initial render */
+      renderCalendar(currentYear, currentMonth);
+    });
+  </script>
+</body>
+</html>
