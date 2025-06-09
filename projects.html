@@ -106,11 +106,12 @@
     });
   </script>
 
-  <!-- Highlight current nav link -->
+  <!-- Highlight current nav link (with “/” → index.html fallback) -->
   <script>
     document.querySelectorAll('.nav-links a').forEach(link => {
-      const currentPage = window.location.pathname.split('/').pop();
-      if (link.getAttribute('href') === currentPage) {
+      let page = window.location.pathname.split('/').pop();
+      if (!page) page = 'index.html';    // default when at root "/"
+      if (link.getAttribute('href') === page) {
         link.classList.add('active');
       }
     });

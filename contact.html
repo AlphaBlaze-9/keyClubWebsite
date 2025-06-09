@@ -118,11 +118,12 @@
     });
   </script>
 
-  <!-- ===== Highlight current nav link ===== -->
+  <!-- ===== Highlight current nav link (with root → index.html fallback) ===== -->
   <script>
     document.querySelectorAll('.nav-links a').forEach(link => {
-      const currentPage = window.location.pathname.split('/').pop();
-      if (link.getAttribute('href') === currentPage) {
+      let page = window.location.pathname.split('/').pop();
+      if (!page) page = 'index.html';               // when URL is “/”
+      if (link.getAttribute('href') === page) {
         link.classList.add('active');
       }
     });
@@ -142,7 +143,9 @@
       </div>
       <p class="alt-contact">
         Prefer email? Reach us at
-        <a href="mailto:bridgelandkeyclub@gmail.com" style="color:#00539c;">bridgelandkeyclub@gmail.com</a>.
+        <a href="mailto:bridgelandkeyclub@gmail.com" style="color:#00539c;">
+          bridgelandkeyclub@gmail.com
+        </a>.
       </p>
     `;
   </script>

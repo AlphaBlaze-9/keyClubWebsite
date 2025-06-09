@@ -44,8 +44,8 @@
     .events-list {
       list-style: none;
       padding: 0;
-      margin: 0;                 /* override earlier centering margins */
-      flex: 1 1 260px;           /* grow/shrink but keep min width */
+      margin: 0;
+      flex: 1 1 260px;
       max-width: 400px;
     }
     .events-list li {
@@ -107,9 +107,9 @@
     /* Responsive tweaks */
     @media (max-width: 600px) {
       .calendar-table th,
-      .calendar-table td     { padding: 0.5rem 0; }
-      .calendar-header       { font-size: 1rem; }
-      .calendar-nav-button   { font-size: 1rem; }
+      .calendar-table td   { padding: 0.5rem 0; }
+      .calendar-header     { font-size: 1rem; }
+      .calendar-nav-button { font-size: 1rem; }
     }
   </style>
 </head>
@@ -145,12 +145,10 @@
     <div class="container">
       <div class="events-calendar-wrapper">
         <!-- Upcoming Events Box -->
-        <ul class="events-list" id="eventsList">
-          <!-- Populated by JavaScript -->
-        </ul>
+        <ul class="events-list" id="eventsList"></ul>
 
         <!-- Calendar Container -->
-        <div class="calendar-container" id="calendarContainer">
+        <div class="calendar-container">
           <div class="calendar-header">
             <button class="calendar-nav-button" id="prevMonthBtn">&laquo;</button>
             <span id="calendarHeaderText"></span>
@@ -163,7 +161,7 @@
                 <th>Thu</th><th>Fri</th><th>Sat</th>
               </tr>
             </thead>
-            <tbody id="calendarBody"><!-- Populated by JS --></tbody>
+            <tbody id="calendarBody"></tbody>
           </table>
         </div>
       </div>
@@ -189,18 +187,20 @@
     menuToggle.addEventListener("click", () => navLinks.classList.toggle("active"));
   </script>
 
-  <!-- Highlight Active Nav Link -->
+  <!-- Highlight current nav link (with root → index.html fallback) -->
   <script>
     document.querySelectorAll('.nav-links a').forEach(link => {
-      if (link.getAttribute('href') === window.location.pathname.split('/').pop())
+      let page = window.location.pathname.split('/').pop();
+      if (!page) page = 'index.html';
+      if (link.getAttribute('href') === page) {
         link.classList.add('active');
+      }
     });
   </script>
 
   <!-- Calendar & Events Logic -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      /* 1) Define events with ISO dates */
       const events = {
         "2025-05-15": "Food Drive Kickoff at Main Auditorium",
         "2025-06-05": "Park Cleanup at Willow Tree Park (9 AM–12 PM)",
@@ -209,52 +209,55 @@
         "2025-09-14": "Club Kickoff Meeting (All Members, 3 PM–5 PM)"
       };
 
-      /* 2) Populate Upcoming Events List */
+      // Populate upcoming events list
       const eventsListEl = document.getElementById("eventsList");
       Object.keys(events).sort().forEach(dateStr => {
         const [y, m, d] = dateStr.split("-");
-        const formatted = new Date(y, m-1, d).toLocaleDateString("en-US",
-                           { month:"long", day:"numeric", year:"numeric" });
+        const formatted = new Date(y, m-1, d).toLocaleDateString("en-US", {
+          month: "long", day: "numeric", year: "numeric"
+        });
         eventsListEl.insertAdjacentHTML("beforeend",
-          `<li><strong>${formatted}:</strong> ${events[dateStr]}</li>`);
+          `<li><strong>${formatted}:</strong> ${events[dateStr]}</li>`
+        );
       });
 
-      /* 3) Calendar state */
+      // Calendar setup
       let currentYear  = new Date().getFullYear();
-      let currentMonth = new Date().getMonth();   // 0-based
+      let currentMonth = new Date().getMonth();
 
-      /* Helper: render calendar */
       function renderCalendar(year, month) {
-        const header      = document.getElementById("calendarHeaderText");
-        const body        = document.getElementById("calendarBody");
-        body.innerHTML    = "";
-        header.textContent= new Date(year, month).toLocaleDateString("en-US",
-                           { month:"long", year:"numeric" });
+        const header = document.getElementById("calendarHeaderText");
+        const body   = document.getElementById("calendarBody");
+        body.innerHTML = "";
+        header.textContent = new Date(year, month).toLocaleDateString("en-US", {
+          month: "long", year: "numeric"
+        });
 
         const firstDayIdx = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month+1, 0).getDate();
-
         let date = 1;
-        for (let r=0; r<6; r++) {
+
+        for (let r = 0; r < 6; r++) {
           const tr = document.createElement("tr");
-          for (let c=0; c<7; c++) {
+          for (let c = 0; c < 7; c++) {
             const td = document.createElement("td");
-            if (r===0 && c<firstDayIdx || date>daysInMonth) {
+            if ((r === 0 && c < firstDayIdx) || date > daysInMonth) {
               td.textContent = "";
             } else {
               td.textContent = date;
               td.classList.add("calendar-day");
-
-              const iso = `${year}-${String(month+1).padStart(2,"0")}-${String(date).padStart(2,"0")}`;
+              const iso = `${year}-${String(month+1).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
               if (events[iso]) {
                 td.classList.add("event");
                 td.title = events[iso];
                 td.onclick = () => alert(events[iso]);
               }
               const today = new Date();
-              if (today.getFullYear()===year && today.getMonth()===month && today.getDate()===date)
+              if (today.getFullYear() === year &&
+                  today.getMonth() === month &&
+                  today.getDate() === date) {
                 td.classList.add("today");
-
+              }
               date++;
             }
             tr.appendChild(td);
@@ -264,17 +267,17 @@
         }
       }
 
-      /* 4) Month nav buttons */
       document.getElementById("prevMonthBtn").onclick = () => {
-        currentMonth--; if (currentMonth<0){ currentMonth=11; currentYear--; }
+        currentMonth--;
+        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
         renderCalendar(currentYear, currentMonth);
       };
       document.getElementById("nextMonthBtn").onclick = () => {
-        currentMonth++; if (currentMonth>11){ currentMonth=0; currentYear++; }
+        currentMonth++;
+        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
         renderCalendar(currentYear, currentMonth);
       };
 
-      /* 5) Initial render */
       renderCalendar(currentYear, currentMonth);
     });
   </script>

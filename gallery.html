@@ -23,14 +23,8 @@
       animation: highlightBox 0.4s ease-out;
     }
     @keyframes highlightBox {
-      from {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
     }
 
     .carousel-container {
@@ -79,12 +73,8 @@
     .carousel-button:focus {
       outline: none;
     }
-    .carousel-button.prev {
-      left: 10px;
-    }
-    .carousel-button.next {
-      right: 10px;
-    }
+    .carousel-button.prev { left: 10px; }
+    .carousel-button.next { right: 10px; }
     .carousel-button svg {
       width: 20px;
       height: 20px;
@@ -132,6 +122,7 @@
   </style>
 </head>
 <body>
+  <!-- NAVBAR / HEADER -->
   <header>
     <div class="container nav-container">
       <a href="index.html" class="logo"><span>Bridgeland Key Club</span></a>
@@ -148,6 +139,7 @@
     </div>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -156,6 +148,7 @@
     </div>
   </section>
 
+  <!-- GALLERY CAROUSEL -->
   <section class="section">
     <div class="container">
       <div class="carousel-container">
@@ -185,6 +178,7 @@
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="container">
       <p>&copy; 2025 Bridgeland Key Club. All rights reserved.</p>
@@ -196,23 +190,27 @@
     </div>
   </footer>
 
+  <!-- MENU TOGGLE -->
   <script>
     const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.querySelector(".nav-links");
+    const navLinks   = document.querySelector(".nav-links");
     menuToggle.addEventListener("click", () => {
       navLinks.classList.toggle("active");
     });
   </script>
 
+  <!-- HIGHLIGHT CURRENT NAV (with root → index.html fallback) -->
   <script>
     document.querySelectorAll('.nav-links a').forEach(link => {
-      const currentPage = window.location.pathname.split('/').pop();
-      if (link.getAttribute('href') === currentPage) {
+      let page = window.location.pathname.split('/').pop();
+      if (!page) page = 'index.html';    // treat “/” as index.html
+      if (link.getAttribute('href') === page) {
         link.classList.add('active');
       }
     });
   </script>
 
+  <!-- CAROUSEL JS (unchanged) -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const track = document.getElementById('carouselTrack');
@@ -248,12 +246,8 @@
         currentIndex = index;
       }
 
-      prevButton.addEventListener('click', () => {
-        moveToSlide(currentIndex - 1);
-      });
-      nextButton.addEventListener('click', () => {
-        moveToSlide(currentIndex + 1);
-      });
+      prevButton.addEventListener('click', () => moveToSlide(currentIndex - 1));
+      nextButton.addEventListener('click', () => moveToSlide(currentIndex + 1));
     });
   </script>
 </body>
