@@ -14,6 +14,8 @@
       padding: 0.5rem 1rem;
       transition: background-color 0.3s ease, transform 0.2s ease;
       display: inline-block;
+      text-decoration: none;
+      color: inherit;
     }
     .nav-links a:hover {
       transform: scale(1.1);
@@ -35,20 +37,53 @@
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1.5rem;
     }
-
-    /* Make anchors look like cards */
     .project-card {
       background: #fff;
       padding: 1.5rem;
       border-radius: 8px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-decoration: none;  /* hide link styling */
+      text-decoration: none;
       color: inherit;
-      display: block;         /* ensure whole card is clickable */
+      display: block;
     }
     .project-card:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ===== Mobile Nav ===== */
+    .nav-container {
+      position: relative;
+    }
+    .menu-toggle {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 1rem 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 1000;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1001;
+      }
     }
   </style>
 </head>
@@ -98,74 +133,62 @@
     </div>
   </footer>
 
-  <!-- Mobile Menu Toggle Script -->
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.querySelector(".nav-links");
-    menuToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-    });
-  </script>
-
-  <!-- Highlight current nav link -->
+  <!-- Combined Nav Highlight, Toggle, and Content Injection -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1) Strip trailing slash and “.html” from the current path
-      let path = window.location.pathname.replace(/\/$/, '');      // "/projects/" → "/projects"
-      path = path.replace(/\.html$/, '');                          // "/projects.html" → "/projects"
-      path = path.replace(/^\//, '');                              // "/projects" → "projects"
-  
-      // 2) Highlight the matching nav-link
+      // 1) Normalize current path
+      let path = window.location.pathname
+        .replace(/\/$/, '')
+        .replace(/\.html$/, '')
+        .replace(/^\//, '');
+
+      // 2) Highlight matching nav-link
       document.querySelectorAll('.nav-links a').forEach(link => {
-        // Strip any leading slash or .html from the href
-        const hrefPage = link
-          .getAttribute('href')
-          .replace(/^\//, '')                                     // "projects.html" or "/projects.html" → "projects.html"
-          .replace(/\.html$/, '');                                // "projects.html" → "projects"
-  
-        if (path === hrefPage || (path === '' && hrefPage === 'index')) {
+        const hrefPage = link.getAttribute('href')
+          .replace(/\/$/, '')
+          .replace(/\.html$/, '')
+          .replace(/^\//, '');
+
+        if (hrefPage === path || (path === '' && hrefPage === 'index')) {
           link.classList.add('active');
         }
       });
-  
-      // 3) Initialize the mobile menu toggle
+
+      // 3) Mobile menu toggle
       const menuToggle = document.getElementById('menuToggle');
       const navLinks   = document.querySelector('.nav-links');
       menuToggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
       });
+
+      // 4) Inject project cards
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = `
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+          <a class="project-card" href="https://cof.church/" target="_blank" rel="noopener noreferrer">
+            <h3>Community of Faith (Cypress)</h3>
+            <p>
+              Club members serve through Community of Faith’s monthly <em>Serve Saturday</em> projects—everything from food distributions to the Boys &amp; Girls Country Spring Carnival—bringing practical help and hope to families around Cypress and Hockley.
+            </p>
+          </a>
+
+          <a class="project-card" href="https://www.mesa-outreach.org/" target="_blank" rel="noopener noreferrer">
+            <h3>MESA-OUTREACH, INC.</h3>
+            <p>
+              A Houston Food Bank partner, MESA’s pantry distributes emergency groceries to food-insecure neighbors, while its “Books to Kids,” school-supply, and scholarship programs invest in children’s futures. We help stock shelves, hand out food, and read with kids during literacy events.
+            </p>
+          </a>
+
+          <a class="project-card" href="https://www.cy-hope.org/resale-market" target="_blank" rel="noopener noreferrer">
+            <h3>Hope Chest Resale Market</h3>
+            <p>
+              The Hope Chest’s 25&nbsp;000&nbsp;sq&nbsp;ft resale warehouse turns gently-used treasures into funding for Cy-Hope’s youth programs. Our volunteers sort donations and staff sales so every purchase helps underserved Cy-Fair students thrive.
+            </p>
+          </a>
+        </div>
+      `;
     });
-  </script>
-  
-
-  <!-- Project cards with outbound links -->
-  <script>
-    const contentDiv = document.getElementById("content");
-    contentDiv.innerHTML = `
-      <h2>Featured Projects</h2>
-      <div class="projects-grid">
-        <a class="project-card" href="https://cof.church/" target="_blank" rel="noopener noreferrer">
-          <h3>Community of Faith (Cypress)</h3>
-          <p>
-            Club members serve through Community of Faith’s monthly <em>Serve Saturday</em> projects—everything from food distributions to the Boys &amp; Girls Country Spring Carnival—bringing practical help and hope to families around Cypress and Hockley.
-          </p>
-        </a>
-
-        <a class="project-card" href="https://www.mesa-outreach.org/" target="_blank" rel="noopener noreferrer">
-          <h3>MESA-OUTREACH, INC.</h3>
-          <p>
-            A Houston Food Bank partner, MESA’s pantry distributes emergency groceries to food-insecure neighbors, while its “Books to Kids,” school-supply, and scholarship programs invest in children’s futures. We help stock shelves, hand out food, and read with kids during literacy events.
-          </p>
-        </a>
-
-        <a class="project-card" href="https://www.cy-hope.org/resale-market" target="_blank" rel="noopener noreferrer">
-          <h3>Hope Chest Resale Market</h3>
-          <p>
-            The Hope Chest’s 25&nbsp;000&nbsp;sq&nbsp;ft resale warehouse turns gently-used treasures into funding for Cy-Hope’s youth programs. Our volunteers sort donations and staff sales so every purchase helps underserved Cy-Fair students thrive.
-          </p>
-        </a>
-      </div>
-    `;
   </script>
 </body>
 </html>

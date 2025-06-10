@@ -6,7 +6,7 @@
   <title>Bridgeland Key Club | Events</title>
   <link rel="stylesheet" href="css/style.css"/>
 
-  <!-- Inline CSS for animated “active” box around current nav link, calendar, and events styling -->
+  <!-- Inline CSS for animated “active” box around current nav link, calendar, events styling, and mobile nav -->
   <style>
     /* ===== Nav link effects ===== */
     .nav-links a {
@@ -29,6 +29,41 @@
     @keyframes highlightBox {
       from { transform: scale(0.8); opacity: 0; }
       to   { transform: scale(1);   opacity: 1; }
+    }
+
+    /* ===== Mobile Nav ===== */
+    .nav-container {
+      position: relative;
+    }
+    .menu-toggle {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 1rem 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 1000;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1001;
+      }
     }
 
     /* ===== Wrapper puts list & calendar side-by-side ===== */
@@ -204,48 +239,32 @@
     </div>
   </footer>
 
-  <!-- Mobile Menu Toggle Script -->
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks   = document.querySelector(".nav-links");
-    menuToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-    });
-  </script>
-
-  <!-- Highlight current nav link -->
+  <!-- Combined Nav Highlight + Toggle, then Calendar & Events Logic -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1) Strip trailing slash and “.html” from the current path
-      let path = window.location.pathname.replace(/\/$/, '');      // "/projects/" → "/projects"
-      path = path.replace(/\.html$/, '');                          // "/projects.html" → "/projects"
-      path = path.replace(/^\//, '');                              // "/projects" → "projects"
-  
-      // 2) Highlight the matching nav-link
+      // —— NAV: highlight active link & mobile toggle ——
+      let path = window.location.pathname
+        .replace(/\/$/, '')
+        .replace(/\.html$/, '')
+        .replace(/^\//, '');
+
       document.querySelectorAll('.nav-links a').forEach(link => {
-        // Strip any leading slash or .html from the href
-        const hrefPage = link
-          .getAttribute('href')
-          .replace(/^\//, '')                                     // "projects.html" or "/projects.html" → "projects.html"
-          .replace(/\.html$/, '');                                // "projects.html" → "projects"
-  
-        if (path === hrefPage || (path === '' && hrefPage === 'index')) {
+        const hrefPage = link.getAttribute('href')
+          .replace(/\/$/, '')
+          .replace(/\.html$/, '')
+          .replace(/^\//, '');
+        if (hrefPage === path || (path === '' && hrefPage === 'index')) {
           link.classList.add('active');
         }
       });
-  
-      // 3) Initialize the mobile menu toggle
+
       const menuToggle = document.getElementById('menuToggle');
       const navLinks   = document.querySelector('.nav-links');
       menuToggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
       });
-    });
-  </script>
 
-  <!-- Calendar & Events Logic -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
+      // —— EVENTS LIST & CALENDAR ——
       const events = {
         '2025-05-15': 'Food Drive Kickoff at Main Auditorium',
         '2025-06-05': 'Park Cleanup at Willow Tree Park (9 AM–12 PM)',
