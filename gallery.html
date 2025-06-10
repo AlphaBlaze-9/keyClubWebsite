@@ -41,13 +41,10 @@
     .carousel-track {
       display: flex;
       transition: transform 0.5s ease-in-out;
-      padding: 0 100px;
-      box-sizing: content-box;
     }
     .carousel-slide {
-      min-width: 600px;
+      flex: 0 0 600px;
       margin: 0 20px;
-      flex-shrink: 0;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -104,30 +101,24 @@
       color: #00539c;
     }
 
-    /* ===== Responsive tweaks ===== */
+    /* ===== Responsive overrides ===== */
     @media (max-width: 768px) {
       .carousel-container {
         max-width: 100%;
         padding: 0 1rem;
       }
-      .carousel-track {
-        padding: 0;
-      }
       .carousel-slide {
-        min-width: 90% !important;
-        margin: 0 5%;
+        flex: 0 0 90% !important;
+        margin: 0 5% !important;
       }
     }
     @media (max-width: 480px) {
       .carousel-container {
         padding: 0 0.5rem;
       }
-      .carousel-track {
-        padding: 0;
-      }
       .carousel-slide {
-        min-width: 100% !important;
-        margin: 0;
+        flex: 0 0 100% !important;
+        margin: 0 !important;
       }
       .carousel-slide img {
         max-height: 250px;
@@ -205,40 +196,10 @@
     </div>
   </footer>
 
-  <!-- ========== SCRIPTS ========== -->
+  <!-- ========== SCRIPTS ======== -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1) Strip trailing slash and “.html” from the current path
-      let path = window.location.pathname.replace(/\/$/, '');      // "/projects/" → "/projects"
-      path = path.replace(/\.html$/, '');                          // "/projects.html" → "/projects"
-      path = path.replace(/^\//, '');                              // "/projects" → "projects"
-  
-      // 2) Highlight the matching nav-link
-      document.querySelectorAll('.nav-links a').forEach(link => {
-        // Strip any leading slash or .html from the href
-        const hrefPage = link
-          .getAttribute('href')
-          .replace(/^\//, '')                                     // "projects.html" or "/projects.html" → "projects.html"
-          .replace(/\.html$/, '');                                // "projects.html" → "projects"
-  
-        if (path === hrefPage || (path === '' && hrefPage === 'index')) {
-          link.classList.add('active');
-        }
-      });
-  
-      // 3) Initialize the mobile menu toggle
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks   = document.querySelector('.nav-links');
-      menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
-    });
-  </script>
-
-  <script>
-    // Carousel logic
-    document.addEventListener('DOMContentLoaded', () => {
-      const track      = document.getElementById('carouselTrack');
+      const track = document.getElementById('carouselTrack');
       const prevButton = document.getElementById('prevBtn');
       const nextButton = document.getElementById('nextBtn');
       const totalImages = 13;
@@ -255,29 +216,31 @@
         track.appendChild(slideDiv);
       }
 
-      const slides = Array.from(track.children);
-      // dynamically calculate gap based on CSS margins
-      const style = getComputedStyle(slides[0]);
-      const marginRight = parseFloat(style.marginRight);
-      const marginLeft = parseFloat(style.marginLeft);
-      const gap = marginLeft + marginRight;
-      const slideWidth = slides[0].getBoundingClientRect().width + gap;
+      let slides = [];
       let currentIndex = 0;
 
-      // Position slides
-      slides.forEach((slide, index) => {
-        slide.style.left = `${slideWidth * index}px`;
-      });
+      function setupCarousel() {
+        slides = Array.from(track.children);
+        slides.forEach(slide => {
+          // store each slide's offset for accurate translate
+          slide.dataset.left = slide.offsetLeft;
+        });
+        moveToSlide(currentIndex);
+      }
 
       function moveToSlide(index) {
         if (index < 0) index = slides.length - 1;
         if (index >= slides.length) index = 0;
-        track.style.transform = `translateX(-${slideWidth * index}px)`;
+        const left = slides[index].dataset.left;
+        track.style.transform = `translateX(-${left}px)`;
         currentIndex = index;
       }
 
+      window.addEventListener('resize', setupCarousel);
       prevButton.addEventListener('click', () => moveToSlide(currentIndex - 1));
       nextButton.addEventListener('click', () => moveToSlide(currentIndex + 1));
+
+      setupCarousel();
     });
   </script>
 </body>
