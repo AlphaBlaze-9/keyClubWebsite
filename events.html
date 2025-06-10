@@ -31,40 +31,6 @@
       to   { transform: scale(1);   opacity: 1; }
     }
 
-    /* ===== Mobile Nav ===== */
-    .nav-container {
-      position: relative;
-    }
-    .menu-toggle {
-      display: none;
-    }
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #fff;
-        padding: 1rem 0;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        z-index: 1000;
-      }
-      .nav-links.active {
-        display: flex;
-      }
-      .menu-toggle {
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: 1rem;
-        transform: translateY(-50%);
-        font-size: 1.5rem;
-        cursor: pointer;
-        z-index: 1001;
-      }
-    }
 
     /* ===== Wrapper puts list & calendar side-by-side ===== */
     .events-calendar-wrapper {
@@ -242,11 +208,11 @@
   <!-- Combined Nav Highlight + Toggle, then Calendar & Events Logic -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // —— NAV: highlight active link & mobile toggle ——
+      // ===== Nav: Highlight active link & toggle mobile menu =====
       let path = window.location.pathname
-        .replace(/\/$/, '')
-        .replace(/\.html$/, '')
-        .replace(/^\//, '');
+        .replace(/\/$/, '')      // strip trailing slash
+        .replace(/\.html$/, '')  // strip .html
+        .replace(/^\//, '');     // strip leading slash
 
       document.querySelectorAll('.nav-links a').forEach(link => {
         const hrefPage = link.getAttribute('href')
