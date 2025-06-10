@@ -8,6 +8,7 @@
 
   <!-- Inline CSS for animated “active” box around current nav link and hover‐expand -->
   <style>
+    /* ===== Nav link effects ===== */
     .nav-links a {
       position: relative;
       padding: 0.5rem 1rem;
@@ -18,7 +19,7 @@
       transform: scale(1.1);
     }
     .nav-links a.active {
-      background-color: #FFD700; /* Gold */
+      background-color: #FFD700; /* Brand Yellow */
       color: #00539c;            /* Blue text */
       border-radius: 4px;
       animation: highlightBox 0.4s ease-out;
@@ -28,7 +29,7 @@
       to   { transform: scale(1);   opacity: 1; }
     }
 
-    /* Hover-expand animation for project cards */
+    /* ===== Hover‐expand animation for project cards ===== */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -41,9 +42,9 @@
       padding: 1.5rem;
       border-radius: 8px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-decoration: none;      /* keep link style invisible */
+      text-decoration: none;  /* hide link styling */
       color: inherit;
-      display: block;             /* ensure the entire card is clickable */
+      display: block;         /* ensure whole card is clickable */
     }
     .project-card:hover {
       transform: scale(1.05);
@@ -106,11 +107,11 @@
     });
   </script>
 
-  <!-- Highlight current nav link (with “/” → index.html fallback) -->
+  <!-- Highlight current nav link -->
   <script>
     document.querySelectorAll('.nav-links a').forEach(link => {
       let page = window.location.pathname.split('/').pop();
-      if (!page) page = 'index.html';    // default when at root "/"
+      if (!page) page = 'index.html'; // root fallback
       if (link.getAttribute('href') === page) {
         link.classList.add('active');
       }
