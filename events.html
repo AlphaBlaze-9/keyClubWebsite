@@ -17,9 +17,7 @@
       text-decoration: none;
       color: inherit;
     }
-    .nav-links a:hover {
-      transform: scale(1.1);
-    }
+    .nav-links a:hover { transform: scale(1.1); }
     .nav-links a.active {
       background-color: #FFD700; /* Gold */
       color: #00539c;            /* Blue text */
@@ -32,12 +30,8 @@
     }
 
     /* ===== Mobile Nav ===== */
-    .nav-container {
-      position: relative;
-    }
-    .menu-toggle {
-      display: none;
-    }
+    .nav-container { position: relative; }
+    .menu-toggle { display: none; }
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -51,9 +45,7 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         z-index: 1000;
       }
-      .nav-links.active {
-        display: flex;
-      }
+      .nav-links.active { display: flex; }
       .menu-toggle {
         display: block;
         position: absolute;
@@ -90,9 +82,7 @@
       font-size: 1rem;
       color: #333;
     }
-    .events-list li strong {
-      color: #00539c;
-    }
+    .events-list li strong { color: #00539c; }
 
     /* ===== Calendar Container ===== */
     .calendar-container {
@@ -122,9 +112,7 @@
       cursor: pointer;
       transition: transform 0.2s ease;
     }
-    .calendar-nav-button:hover {
-      transform: scale(1.2);
-    }
+    .calendar-nav-button:hover { transform: scale(1.2); }
     .calendar-table {
       width: 100%;
       border-collapse: collapse;
@@ -141,10 +129,7 @@
       font-weight: normal;
       color: #333;
     }
-    .calendar-day {
-      position: relative;
-      cursor: default;
-    }
+    .calendar-day { position: relative; cursor: default; }
     .calendar-day.event {
       background-color: #FFD700;
       color: #00539c;
@@ -160,15 +145,9 @@
     /* ===== Responsive tweaks ===== */
     @media (max-width: 600px) {
       .calendar-table th,
-      .calendar-table td {
-        padding: 0.5rem 0;
-      }
-      .calendar-header {
-        font-size: 1rem;
-      }
-      .calendar-nav-button {
-        font-size: 1rem;
-      }
+      .calendar-table td { padding: 0.5rem 0; }
+      .calendar-header { font-size: 1rem; }
+      .calendar-nav-button { font-size: 1rem; }
     }
   </style>
 </head>
@@ -203,10 +182,7 @@
   <section class="section">
     <div class="container">
       <div class="events-calendar-wrapper">
-        <!-- Upcoming Events Box -->
         <ul class="events-list" id="eventsList"></ul>
-
-        <!-- Calendar Container -->
         <div class="calendar-container">
           <div class="calendar-header">
             <button class="calendar-nav-button" id="prevMonthBtn">&laquo;</button>
@@ -239,32 +215,28 @@
     </div>
   </footer>
 
-  <!-- Combined Nav Highlight + Toggle, then Calendar & Events Logic -->
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks   = document.querySelector(".nav-links");
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  </script>
+
+  <!-- Active-Link Highlight Script -->
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      const currentPage = window.location.pathname.split('/').pop();
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+
+  <!-- Events List & Calendar Logic -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // —— NAV: highlight active link & mobile toggle ——
-      let path = window.location.pathname
-        .replace(/\/$/, '')
-        .replace(/\.html$/, '')
-        .replace(/^\//, '');
-
-      document.querySelectorAll('.nav-links a').forEach(link => {
-        const hrefPage = link.getAttribute('href')
-          .replace(/\/$/, '')
-          .replace(/\.html$/, '')
-          .replace(/^\//, '');
-        if (hrefPage === path || (path === '' && hrefPage === 'index')) {
-          link.classList.add('active');
-        }
-      });
-
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks   = document.querySelector('.nav-links');
-      menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
-
-      // —— EVENTS LIST & CALENDAR ——
       const events = {
         '2025-05-15': 'Food Drive Kickoff at Main Auditorium',
         '2025-06-05': 'Park Cleanup at Willow Tree Park (9 AM–12 PM)',

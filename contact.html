@@ -146,35 +146,28 @@
     </div>
   </footer>
 
-  <!-- ===== SCRIPTS ===== -->
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks   = document.querySelector(".nav-links");
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  </script>
+
+  <!-- Active-Link Highlight Script -->
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      const currentPage = window.location.pathname.split('/').pop();
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+
+  <!-- Content Injection Script -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1) Normalize the current path
-      let path = window.location.pathname
-        .replace(/\/$/, '')      // "/contact/" → "/contact"
-        .replace(/\.html$/, '')  // "/contact.html" → "/contact"
-        .replace(/^\//, '');     // "/contact" → "contact"
-
-      // 2) Highlight matching nav-link
-      document.querySelectorAll('.nav-links a').forEach(link => {
-        const hrefPage = link.getAttribute('href')
-          .replace(/\/$/, '')     // trailing slash safety
-          .replace(/\.html$/, '') // drop .html
-          .replace(/^\//, '');    // drop leading slash
-
-        if (hrefPage === path || (path === '' && hrefPage === 'index')) {
-          link.classList.add('active');
-        }
-      });
-
-      // 3) Mobile menu toggle
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks   = document.querySelector('.nav-links');
-      menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
-
-      // 4) Inject Contact Box Content
       const contentDiv = document.getElementById('content');
       contentDiv.innerHTML = `
         <div class="contact-box">

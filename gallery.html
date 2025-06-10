@@ -160,9 +160,7 @@
         <button class="carousel-button prev" id="prevBtn">
           <svg viewBox="0 0 20 20"><path d="M12.5 16.5l-1.06 1.06L4.38 11.5l7.06-6.06L12.5 6.88 7.62 11.5l4.88 5z"/></svg>
         </button>
-        <div class="carousel-track" id="carouselTrack">
-          <!-- Slides populated by JS -->
-        </div>
+        <div class="carousel-track" id="carouselTrack"><!-- slides added via JS --></div>
         <button class="carousel-button next" id="nextBtn">
           <svg viewBox="0 0 20 20"><path d="M7.5 3.5l1.06-1.06L15.62 8.5l-7.06 6.06L7.5 13.12 12.38 8.5 7.5 3.5z"/></svg>
         </button>
@@ -196,33 +194,29 @@
     </div>
   </footer>
 
-  <!-- ===== SCRIPTS ===== -->
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks   = document.querySelector(".nav-links");
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  </script>
+
+  <!-- Active-Link Highlight Script -->
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      const currentPage = window.location.pathname.split('/').pop();
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+
+  <!-- Carousel Populate & Control -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ===== Nav: Highlight active link & toggle mobile menu =====
-      let path = window.location.pathname
-        .replace(/\/$/, '')      // strip trailing slash
-        .replace(/\.html$/, '')  // strip .html
-        .replace(/^\//, '');     // strip leading slash
-
-      document.querySelectorAll('.nav-links a').forEach(link => {
-        const hrefPage = link.getAttribute('href')
-          .replace(/\/$/, '')
-          .replace(/\.html$/, '')
-          .replace(/^\//, '');
-        if (hrefPage === path || (path === '' && hrefPage === 'index')) {
-          link.classList.add('active');
-        }
-      });
-
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks   = document.querySelector('.nav-links');
-      menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
-
-      // ===== Carousel: Populate & control =====
-      const track = document.getElementById('carouselTrack');
+      const track      = document.getElementById('carouselTrack');
       const prevButton = document.getElementById('prevBtn');
       const nextButton = document.getElementById('nextBtn');
       const totalImages = 13;
@@ -230,13 +224,13 @@
 
       // Populate slides
       for (let i = 1; i <= totalImages; i++) {
-        const slideDiv = document.createElement('div');
-        slideDiv.className = 'carousel-slide';
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
         const img = document.createElement('img');
         img.src = `${folderPath}KC${i}.jpg`;
         img.alt = `KC Photo ${i}`;
-        slideDiv.appendChild(img);
-        track.appendChild(slideDiv);
+        slide.appendChild(img);
+        track.appendChild(slide);
       }
 
       let slides = [];
@@ -247,7 +241,7 @@
         slides.forEach(slide => {
           slide.dataset.left = slide.offsetLeft;
         });
-        moveToSlide(currentIndex);
+        moveToSlide(0);
       }
 
       function moveToSlide(index) {
