@@ -106,21 +106,28 @@
 
     /* ===== Responsive tweaks ===== */
     @media (max-width: 768px) {
-      .carousel-slide {
-        min-width: 300px;
-        margin: 0 10px;
-      }
       .carousel-container {
-        padding: 0 20px;
+        max-width: 100%;
+        padding: 0 1rem;
+      }
+      .carousel-track {
+        padding: 0;
+      }
+      .carousel-slide {
+        min-width: 90% !important;
+        margin: 0 5%;
       }
     }
     @media (max-width: 480px) {
-      .carousel-slide {
-        min-width: 240px;
-        margin: 0 5px;
-      }
       .carousel-container {
-        padding: 0 10px;
+        padding: 0 0.5rem;
+      }
+      .carousel-track {
+        padding: 0;
+      }
+      .carousel-slide {
+        min-width: 100% !important;
+        margin: 0;
       }
       .carousel-slide img {
         max-height: 250px;
@@ -248,8 +255,12 @@
         track.appendChild(slideDiv);
       }
 
-      const slides     = Array.from(track.children);
-      const gap        = 40; // slide margin * 2
+      const slides = Array.from(track.children);
+      // dynamically calculate gap based on CSS margins
+      const style = getComputedStyle(slides[0]);
+      const marginRight = parseFloat(style.marginRight);
+      const marginLeft = parseFloat(style.marginLeft);
+      const gap = marginLeft + marginRight;
       const slideWidth = slides[0].getBoundingClientRect().width + gap;
       let currentIndex = 0;
 
