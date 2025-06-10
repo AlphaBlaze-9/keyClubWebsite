@@ -50,6 +50,41 @@
       transform: scale(1.05);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
+
+    /* ===== Mobile Nav ===== */
+    .nav-container {
+      position: relative;
+    }
+    .menu-toggle {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 1rem 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 1000;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1001;
+      }
+    }
   </style>
 </head>
 <body>
@@ -98,28 +133,35 @@
     </div>
   </footer>
 
-  <!-- Mobile Menu Toggle Script -->
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks   = document.querySelector(".nav-links");
-    menuToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-    });
-  </script>
-
-  <!-- Script to add “active” class and animate current nav link -->
-  <script>
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      const currentPage = window.location.pathname.split('/').pop();
-      if (link.getAttribute('href') === currentPage) {
-        link.classList.add('active');
-      }
-    });
-  </script>
-
-  <!-- Inline JS to populate Projects page content -->
+  <!-- Combined Nav Highlight, Toggle, and Content Injection -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // 1) Normalize current path
+      let path = window.location.pathname
+        .replace(/\/$/, '')
+        .replace(/\.html$/, '')
+        .replace(/^\//, '');
+
+      // 2) Highlight matching nav-link
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        const hrefPage = link.getAttribute('href')
+          .replace(/\/$/, '')
+          .replace(/\.html$/, '')
+          .replace(/^\//, '');
+
+        if (hrefPage === path || (path === '' && hrefPage === 'index')) {
+          link.classList.add('active');
+        }
+      });
+
+      // 3) Mobile menu toggle
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks   = document.querySelector('.nav-links');
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+
+      // 4) Inject project cards
       const contentDiv = document.getElementById("content");
       contentDiv.innerHTML = `
         <h2>Featured Projects</h2>
