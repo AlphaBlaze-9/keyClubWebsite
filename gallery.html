@@ -200,20 +200,31 @@
 
   <!-- ========== SCRIPTS ========== -->
   <script>
-    // Mobile menu toggle
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks   = document.querySelector(".nav-links");
-    menuToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-    });
-
-    // Highlight current nav link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      let page = window.location.pathname.split('/').pop();
-      if (!page) page = 'index.html'; // treat root as index
-      if (link.getAttribute('href') === page) {
-        link.classList.add('active');
-      }
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1) Strip trailing slash and “.html” from the current path
+      let path = window.location.pathname.replace(/\/$/, '');      // "/projects/" → "/projects"
+      path = path.replace(/\.html$/, '');                          // "/projects.html" → "/projects"
+      path = path.replace(/^\//, '');                              // "/projects" → "projects"
+  
+      // 2) Highlight the matching nav-link
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        // Strip any leading slash or .html from the href
+        const hrefPage = link
+          .getAttribute('href')
+          .replace(/^\//, '')                                     // "projects.html" or "/projects.html" → "projects.html"
+          .replace(/\.html$/, '');                                // "projects.html" → "projects"
+  
+        if (path === hrefPage || (path === '' && hrefPage === 'index')) {
+          link.classList.add('active');
+        }
+      });
+  
+      // 3) Initialize the mobile menu toggle
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks   = document.querySelector('.nav-links');
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
     });
   </script>
 
