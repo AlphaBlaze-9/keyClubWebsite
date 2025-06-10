@@ -51,47 +51,6 @@
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
     }
 
-    /* ===== Mobile Nav fixes ===== */
-    .nav-container {
-      position: relative;
-    }
-    .menu-toggle {
-      display: none;
-    }
-    @media (max-width: 768px) {
-      /* position the toggle icon at top-right */
-      .menu-toggle {
-        display: block;
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        font-size: 1.5rem;
-        cursor: pointer;
-        z-index: 1001;
-      }
-
-      /* reset the UL & pin it below the header */
-      .nav-links {
-        display: none;
-        margin: 0;           /* remove default ul margin */
-        padding: 1rem 0;
-        flex-direction: column;
-        position: absolute;
-        top: calc(100% + 0.5rem);
-        left: 0;
-        width: 100%;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        z-index: 1000;
-      }
-      .nav-links.active {
-        display: flex;
-      }
-      .nav-links li {
-        text-align: center;
-        margin: 0.5rem 0;
-      }
-    }
   </style>
 </head>
 <body>
@@ -143,11 +102,11 @@
   <!-- ===== SCRIPTS ===== -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Highlight active link
+      // ===== Nav: Highlight active link & toggle mobile menu =====
       let path = window.location.pathname
-        .replace(/\/$/, '')
-        .replace(/\.html$/, '')
-        .replace(/^\//, '');
+        .replace(/\/$/, '')      // strip trailing slash
+        .replace(/\.html$/, '')  // strip .html
+        .replace(/^\//, '');     // strip leading slash
 
       document.querySelectorAll('.nav-links a').forEach(link => {
         const hrefPage = link.getAttribute('href')
@@ -159,7 +118,6 @@
         }
       });
 
-      // Toggle mobile menu
       const menuToggle = document.getElementById('menuToggle');
       const navLinks   = document.querySelector('.nav-links');
       menuToggle.addEventListener('click', () => {
