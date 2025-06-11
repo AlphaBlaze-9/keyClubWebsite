@@ -6,7 +6,8 @@
   <title>Bridgeland Key Club | About</title>
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Inline CSS for animated “active” box around current nav link, hover-expand, and centered content -->
+  <!-- Inline CSS for animated “active” box around current nav link, hover-expand, centered content,
+       larger headings, hover animation on requirement cards, and adjusted strike heading size -->
   <style>
     /* ===== Nav link effects ===== */
     .nav-links a {
@@ -17,8 +18,8 @@
     }
     .nav-links a:hover { transform: scale(1.1); }
     .nav-links a.active {
-      background-color: #FFD700; /* Brand Yellow */
-      color: #00539c;            /* Blue text */
+      background-color: #FFD700;
+      color: #00539c;
       border-radius: 4px;
       animation: highlightBox 0.4s ease-out;
     }
@@ -35,39 +36,67 @@
       text-align: center;
     }
 
-    /* ===== Requirements section styling ===== */
-    .requirements-grid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:1.5rem;
-      justify-content:center;
-      margin:2rem 0 3rem;
-    }
-    .requirement-card{
-      background:rgba(255,215,0,0.15); /* translucent brand yellow */
-      border:2px solid #FFD700;
-      border-radius:8px;
-      padding:1.25rem 1.25rem;
-      width:260px;
-      text-align:center;
-      box-shadow:0 2px 6px rgba(0,0,0,0.05);
-    }
-    .requirement-card h4{
-      margin:0 0 .5rem;
-      font-size:1.5rem;
-      color:#4d2e00; /* deep warm brown for contrast */
-    }
-    .requirement-card p{
-      margin:0;
-      font-size:1rem;
-      line-height:1.35;
+    /* ===== Section headings larger ===== */
+    #content h3 {
+      font-size: 1.75rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
     }
 
-    /* ===== Strikes & Standings ===== */
-    .strike-lists{ text-align:center; margin:0 auto 3rem; max-width:700px; }
-    .strike-lists h4{ color:#8B4513; margin:.6rem 0; }
-    .strike-lists ul{ margin:.25rem 0 1.25rem 0; list-style-position:inside; padding:0; }
-    .strike-lists li{ margin-bottom:.45rem; }
+    /* ===== Requirements section styling with hover animation ===== */
+    .requirements-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin: 2rem 0 3rem;
+    }
+    .requirement-card {
+      background: #00539c;
+      border: 2px solid #FFD700;
+      border-radius: 8px;
+      padding: 1.25rem;
+      width: 260px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .requirement-card:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .requirement-card h4 {
+      margin: 0 0 .5rem;
+      font-size: 1.75rem;
+      color: #FFD700;
+    }
+    .requirement-card p {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.35;
+      color: #FFD700;
+    }
+
+    /* ===== Strikes & Standings styling ===== */
+    .strike-lists {
+      text-align: center;
+      margin: 0 auto 3rem;
+      max-width: 700px;
+    }
+    .strike-lists h4 {
+      color: #00539c;
+      margin: .6rem 0;
+      font-size: 1.25rem;  /* reduced from 1.5rem */
+    }
+    .strike-lists ul {
+      margin: .25rem 0 1.25rem 0;
+      list-style-position: inside;
+      padding: 0;
+    }
+    .strike-lists li {
+      margin-bottom: .45rem;
+      font-size: 1.1rem;
+    }
   </style>
 </head>
 <body>
@@ -154,7 +183,7 @@
       <div class="requirements-grid">
         <div class="requirement-card">
           <h4>15 Hours</h4>
-          <p>are required for credit <br/>this semester</p>
+          <p>are required for credit<br/>this semester</p>
         </div>
         <div class="requirement-card">
           <h4>30 Hours Total</h4>
