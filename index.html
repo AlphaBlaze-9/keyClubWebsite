@@ -114,6 +114,95 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+
+    /* ===== Responsive tweaks ===== */
+    @media (max-width: 768px) {
+      /* Stack the nav links vertically and slide in/out */
+      .nav-links {
+        position: fixed;
+        top: 60px;               /* under your header */
+        left: -100%;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        transition: left 0.3s ease;
+        padding: 1rem 0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        z-index: 1000;
+      }
+      .nav-links.active {
+        left: 0;
+      }
+      .nav-links li {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
+      .menu-toggle {
+        display: block;          /* ensure the burger shows */
+        cursor: pointer;
+      }
+
+      /* Hero text smaller */
+      .hero-content h1 {
+        font-size: 1.5rem;
+      }
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      /* Center content padding */
+      #content {
+        padding: 0 1rem;
+      }
+
+      /* Requirement cards go full width */
+      .requirements-grid {
+        gap: 1rem;
+      }
+      .requirement-card {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+
+      /* Shrink strikes/standings section */
+      .strike-lists {
+        padding: 0 1rem;
+      }
+      .strike-lists h4 {
+        font-size: 1.1rem;
+      }
+      .strike-lists li {
+        font-size: 1rem;
+      }
+
+      /* Embedded PDF smaller height */
+      #newsletter iframe {
+        height: 300px;
+      }
+      #newsletter h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Hide the burger on desktop */
+    .menu-toggle {
+      display: none;
+    }
+
+    /* Ensure desktop nav stays horizontal */
+    @media (min-width: 769px) {
+      .nav-links {
+        position: static;
+        flex-direction: row;
+        box-shadow: none;
+        background: transparent;
+        left: auto;
+      }
+      .nav-links li {
+        margin: 0;
+      }
+    }
   </style>
 </head>
 <body>
