@@ -6,8 +6,7 @@
   <title>Bridgeland Key Club | About</title>
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Inline CSS for animated “active” box around current nav link, hover-expand, centered content,
-       larger headings, hover animation on requirement cards, and adjusted strike heading size -->
+  <!-- Inline CSS for nav effects, layout tweaks, requirement cards, strikes & embedded PDF -->
   <style>
     /* ===== Nav link effects ===== */
     .nav-links a {
@@ -43,7 +42,7 @@
       margin-bottom: 1rem;
     }
 
-    /* ===== Requirements section styling with hover animation ===== */
+    /* ===== Requirements section styling ===== */
     .requirements-grid {
       display: flex;
       flex-wrap: wrap;
@@ -86,7 +85,7 @@
     .strike-lists h4 {
       color: #00539c;
       margin: .6rem 0;
-      font-size: 1.25rem;  /* reduced from 1.5rem */
+      font-size: 1.25rem;
     }
     .strike-lists ul {
       margin: .25rem 0 1.25rem 0;
@@ -96,6 +95,24 @@
     .strike-lists li {
       margin-bottom: .45rem;
       font-size: 1.1rem;
+    }
+
+    /* ===== Embedded PDF Section ===== */
+    #newsletter {
+      background: #f4f4f4;
+      padding: 2rem 0;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    #newsletter h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    #newsletter iframe {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -133,6 +150,14 @@
     </div>
   </section>
 
+  <!-- ========== EMBEDDED PDF ========== -->
+  <section id="newsletter">
+    <div class="container">
+      <h3>Latest Newsletter</h3>
+      <iframe src="assets/FILE_3794.pdf"></iframe>
+    </div>
+  </section>
+
   <!-- ========== FOOTER ========== -->
   <footer>
     <div class="container">
@@ -154,7 +179,7 @@
     });
   </script>
 
-  <!-- Script to add “active” class and animate current nav link -->
+  <!-- Auto-highlight current nav link -->
   <script>
     document.querySelectorAll('.nav-links a').forEach(link => {
       const currentPage = window.location.pathname.split('/').pop();
@@ -164,7 +189,7 @@
     });
   </script>
 
-  <!-- Inline JS to populate About page content -->
+  <!-- Populate About page content -->
   <script>
     const contentDiv = document.getElementById("content");
     contentDiv.innerHTML = `
