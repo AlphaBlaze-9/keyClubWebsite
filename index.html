@@ -8,12 +8,30 @@
 
   <!-- Inline CSS for nav effects, layout tweaks, requirement cards, strikes & embedded PDF -->
   <style>
-    /* ===== Nav link effects ===== */
+    /* ===== Nav container & list: FORCE same spacing as Projects ===== */
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;              /* <- controls spacing between links */
+      list-style: none;       /* remove bullets */
+      margin: 0;              /* remove default ul margin */
+      padding: 0;             /* remove default ul padding */
+    }
+    .nav-links li { margin: 0; }  /* normalize li */
+
+    /* ===== Nav link effects (same as Projects) ===== */
     .nav-links a {
       position: relative;
       padding: 0.5rem 1rem;
       transition: background-color 0.3s ease, transform 0.2s ease;
       display: inline-block;
+      text-decoration: none;
+      color: inherit;
     }
     .nav-links a:hover { transform: scale(1.1); }
     .nav-links a.active {
@@ -125,7 +143,6 @@
 
     /* ===== Responsive tweaks ===== */
     @media (max-width: 768px) {
-      /* Stack the nav links vertically and slide in/out */
       .nav-links {
         position: fixed;
         top: 60px;
@@ -137,10 +154,9 @@
         padding: 1rem 0;
         box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         z-index: 1000;
+        gap: 0;           /* stacked menu: no horizontal gap needed */
       }
-      .nav-links.active {
-        left: 0;
-      }
+      .nav-links.active { left: 0; }
       .nav-links li {
         margin: 0.5rem 0;
         text-align: center;
@@ -150,58 +166,29 @@
         cursor: pointer;
       }
 
-      /* Hero text smaller */
-      .hero-content h1 {
-        font-size: 1.5rem;
-      }
-      .hero-content p {
-        font-size: 1rem;
-      }
+      .hero-content h1 { font-size: 1.5rem; }
+      .hero-content p { font-size: 1rem; }
 
-      /* Center content padding */
-      #content {
-        padding: 0 1rem;
-      }
+      #content { padding: 0 1rem; }
 
-      /* Requirement cards go full width */
-      .requirements-grid {
-        gap: 1rem;
-      }
+      .requirements-grid { gap: 1rem; }
       .requirement-card {
         width: 100%;
         max-width: 320px;
         margin: 0 auto;
       }
 
-      /* Shrink strikes/standings section */
-      .strike-lists {
-        padding: 0 1rem;
-      }
-      .strike-lists h4 {
-        font-size: 1.1rem;
-      }
-      .strike-lists li {
-        font-size: 1rem;
-      }
+      .strike-lists { padding: 0 1rem; }
+      .strike-lists h4 { font-size: 1.1rem; }
+      .strike-lists li { font-size: 1rem; }
 
-      /* PDF embed → download link on mobile */
-      .pdf-embed {
-        display: none;
-      }
-      .pdf-link {
-        display: block;
-      }
-      #newsletter h3 {
-        font-size: 1.5rem;
-      }
+      .pdf-embed { display: none; }
+      .pdf-link { display: block; }
+      #newsletter h3 { font-size: 1.5rem; }
     }
 
-    /* Hide the burger on desktop */
-    .menu-toggle {
-      display: none;
-    }
+    .menu-toggle { display: none; }
 
-    /* Ensure desktop nav stays horizontal */
     @media (min-width: 769px) {
       .nav-links {
         position: static;
@@ -210,16 +197,9 @@
         background: transparent;
         left: auto;
       }
-      .nav-links li {
-        margin: 0;
-      }
-      /* PDF embed on desktop, hide link */
-      .pdf-embed {
-        display: block;
-      }
-      .pdf-link {
-        display: none;
-      }
+      .nav-links li { margin: 0; }
+      .pdf-embed { display: block; }
+      .pdf-link { display: none; }
     }
   </style>
 </head>
@@ -230,7 +210,7 @@
       <a href="index.html" class="logo"><span>Bridgeland Key Club</span></a>
       <nav>
         <ul class="nav-links">
-          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="index.html">About</a></li>
           <li><a href="projects.html">Projects</a></li>
           <li><a href="events.html">Events</a></li>
           <li><a href="gallery.html">Gallery</a></li>
@@ -262,7 +242,7 @@
     <div class="container">
       <h3>Latest Newsletter</h3>
       <div class="pdf-embed">
-        <iframe src="assets/FILE_3794.pdf"></iframe>
+        <iframe src="assets/August Bear Buzz PDF.pdf"></iframe>
       </div>
       <div class="pdf-link">
         <p>Download the latest newsletter: <a href="assets/FILE_3794.pdf" download>Click here to download (PDF)</a></p>
@@ -282,75 +262,81 @@
     </div>
   </footer>
 
-  <!-- Mobile Menu Toggle Script -->
+  <!-- ===== SCRIPTS ===== -->
   <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.querySelector(".nav-links");
-    menuToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
+    document.addEventListener('DOMContentLoaded', () => {
+      // ===== Nav: Highlight active link & toggle mobile menu =====
+      let path = window.location.pathname
+        .replace(/\/$/, '')
+        .replace(/\.html$/, '')
+        .replace(/^\//, '');
+
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        const hrefPage = link.getAttribute('href')
+          .replace(/\/$/, '')
+          .replace(/\.html$/, '')
+          .replace(/^\//, '');
+        if (hrefPage === path || (path === '' && hrefPage === 'index')) {
+          link.classList.add('active');
+        }
+      });
+
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks   = document.querySelector('.nav-links');
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+
+      // Inject About content
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = `
+        <h2>About Bridgeland Key Club</h2>
+        <p>
+          Bridgeland Key Club is a student-led community service organization focused on leadership, character building, and serving others. We partner with local nonprofits, schools, and community leaders to make a real difference.
+        </p>
+        <p>
+          <strong>Our Mission:</strong> Empower student members to develop leadership skills while giving back to our community through hands-on projects.
+        </p>
+        <p>
+          <strong>Our Values:</strong> Service, Leadership, Inclusivity, Integrity, Teamwork.
+        </p>
+
+        <h3>Meeting &amp; Social Requirements</h3>
+        <div class="requirements-grid">
+          <div class="requirement-card">
+            <h4>15 Hours</h4>
+            <p>are required for credit<br/>this semester</p>
+          </div>
+          <div class="requirement-card">
+            <h4>30 Hours Total</h4>
+            <p>are needed this academic<br/>year for credit</p>
+          </div>
+          <div class="requirement-card">
+            <h4>2 Socials</h4>
+            <p>are required this<br/>semester</p>
+          </div>
+          <div class="requirement-card">
+            <h4>4 Total Social</h4>
+            <p>must be attended this<br/>school year</p>
+          </div>
+        </div>
+
+        <h3>Strikes &amp; Standings</h3>
+        <div class="strike-lists">
+          <h4>Members can be given strikes for the following reasons:</h4>
+          <ul>
+            <li>Not attending or being late to an event you signed up for</li>
+            <li>Cancelling less than 24 hours prior to an event</li>
+          </ul>
+          <h4>Members will be immediately terminated and stricken from the record for the following reasons:</h4>
+          <ul>
+            <li>Receiving three strikes</li>
+            <li>Fraudulently reporting attendance / donations</li>
+            <li>Academic dishonesty</li>
+          </ul>
+        </div>
+      `;
     });
-  </script>
-
-  <!-- Auto-highlight current nav link -->
-  <script>
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      const currentPage = window.location.pathname.split('/').pop();
-      if (link.getAttribute('href') === currentPage) {
-        link.classList.add('active');
-      }
-    });
-  </script>
-
-  <!-- Populate About page content -->
-  <script>
-    const contentDiv = document.getElementById("content");
-    contentDiv.innerHTML = `
-      <h2>About Bridgeland Key Club</h2>
-      <p>
-        Bridgeland Key Club is a student-led community service organization focused on leadership, character building, and serving others. We partner with local nonprofits, schools, and community leaders to make a real difference.
-      </p>
-      <p>
-        <strong>Our Mission:</strong> Empower student members to develop leadership skills while giving back to our community through hands-on projects.
-      </p>
-      <p>
-        <strong>Our Values:</strong> Service, Leadership, Inclusivity, Integrity, Teamwork.
-      </p>
-
-      <h3>Meeting &amp; Social Requirements</h3>
-      <div class="requirements-grid">
-        <div class="requirement-card">
-          <h4>15 Hours</h4>
-          <p>are required for credit<br/>this semester</p>
-        </div>
-        <div class="requirement-card">
-          <h4>30 Hours Total</h4>
-          <p>are needed this academic<br/>year for credit</p>
-        </div>
-        <div class="requirement-card">
-          <h4>2 Socials</h4>
-          <p>are required this<br/>semester</p>
-        </div>
-        <div class="requirement-card">
-          <h4>4 Total Social</h4>
-          <p>must be attended this<br/>school year</p>
-        </div>
-      </div>
-
-      <h3>Strikes &amp; Standings</h3>
-      <div class="strike-lists">
-        <h4>Members can be given strikes for the following reasons:</h4>
-        <ul>
-          <li>Not attending or being late to an event you signed up for</li>
-          <li>Cancelling less than 24 hours prior to an event</li>
-        </ul>
-        <h4>Members will be immediately terminated and stricken from the record for the following reasons:</h4>
-        <ul>
-          <li>Receiving three strikes</li>
-          <li>Fraudulently reporting attendance / donations</li>
-          <li>Academic dishonesty</li>
-        </ul>
-      </div>
-    `;
   </script>
 </body>
 </html>
