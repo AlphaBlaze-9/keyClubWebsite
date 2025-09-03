@@ -9,11 +9,19 @@
   <!-- Inline CSS for nav effects, layout tweaks, requirement cards, strikes & embedded PDF -->
   <style>
     /* ===== Nav container & list: FORCE same spacing as Projects ===== */
+    header { background:#fff; position: sticky; top: 0; z-index: 1200; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
     .nav-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      min-height: 60px;
+      position: relative; /* so z-index children stack as expected */
+      z-index: 1200;
     }
+
+    .logo { font-weight: 700; color: #00539c; text-decoration: none; }
+
     nav .nav-links {
       display: flex;
       align-items: center;
@@ -45,7 +53,23 @@
       to   { transform: scale(1);   opacity: 1; }
     }
 
+    /* ===== Menu Toggle (mobile) ===== */
+    .menu-toggle {
+      display: none; /* default hidden on desktop */
+      cursor: pointer;
+      border: 2px solid #00539c;
+      background: #fff;
+      color: #00539c;
+      font-size: 1.6rem;
+      line-height: 1;
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      z-index: 1101;            /* ABOVE the slide-in menu (which is 1000) */
+      position: relative;       /* ensure z-index applies */
+    }
+
     /* ===== Center the hero text and main content ===== */
+    .hero { position: relative; background:#f6f9ff; padding: 3rem 0; }
     .hero-content { text-align: center; }
     #content {
       max-width: 900px;
@@ -143,6 +167,9 @@
 
     /* ===== Responsive tweaks ===== */
     @media (max-width: 768px) {
+      .menu-toggle { display: inline-block; }
+
+      /* Slide-in menu */
       .nav-links {
         position: fixed;
         top: 60px;
@@ -153,17 +180,13 @@
         transition: left 0.3s ease;
         padding: 1rem 0;
         box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        z-index: 1000;
+        z-index: 1000; /* below the toggle (1101) so toggle stays clickable */
         gap: 0;           /* stacked menu: no horizontal gap needed */
       }
       .nav-links.active { left: 0; }
       .nav-links li {
         margin: 0.5rem 0;
         text-align: center;
-      }
-      .menu-toggle {
-        display: block;
-        cursor: pointer;
       }
 
       .hero-content h1 { font-size: 1.5rem; }
@@ -187,8 +210,6 @@
       #newsletter h3 { font-size: 1.5rem; }
     }
 
-    .menu-toggle { display: none; }
-
     @media (min-width: 769px) {
       .nav-links {
         position: static;
@@ -201,6 +222,11 @@
       .pdf-embed { display: block; }
       .pdf-link { display: none; }
     }
+
+    /* Footer */
+    footer { padding: 1.5rem 0; background:#fff; color:#333; border-top: 1px solid #eee; }
+    .social-icons { display:flex; gap:.75rem; justify-content:center; margin-top:.5rem; }
+    .social-link { color:#00539c; text-decoration:none; }
   </style>
 </head>
 <body>
@@ -217,7 +243,8 @@
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-      <div class="menu-toggle" id="menuToggle">☰</div>
+      <!-- Use a button for better accessibility & tap targets -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation">☰</button>
     </div>
   </header>
 
@@ -242,7 +269,7 @@
     <div class="container">
       <h3>Latest Newsletter</h3>
       <div class="pdf-embed">
-        <iframe src="assets/August Bear Buzz PDF.pdf"></iframe>
+        <iframe src="assets/August Bear Buzz PDF.pdf" title="August Bear Buzz Newsletter"></iframe>
       </div>
       <div class="pdf-link">
         <p>Download the latest newsletter: <a href="assets/FILE_3794.pdf" download>Click here to download (PDF)</a></p>
@@ -283,8 +310,22 @@
 
       const menuToggle = document.getElementById('menuToggle');
       const navLinks   = document.querySelector('.nav-links');
-      menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+
+      // Toggle slide-in menu on mobile
+      function toggleMenu() {
+        const isOpen = navLinks.classList.toggle('active');
+        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+      menuToggle.addEventListener('click', toggleMenu);
+
+      // Close menu after tapping any link on mobile
+      navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
       });
 
       // Inject About content
