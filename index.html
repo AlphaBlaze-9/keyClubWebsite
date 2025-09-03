@@ -6,33 +6,9 @@
   <title>Bridgeland Key Club | About</title>
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Inline CSS for nav effects, layout tweaks, requirement cards, strikes & embedded PDF -->
+  <!-- Inline CSS for nav effects (matches Projects) -->
   <style>
-    /* ===== Nav container & list: FORCE same spacing as Projects ===== */
-    header { background:#fff; position: sticky; top: 0; z-index: 1200; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-height: 60px;
-      position: relative; /* so z-index children stack as expected */
-      z-index: 1200;
-    }
-
-    .logo { font-weight: 700; color: #00539c; text-decoration: none; }
-
-    nav .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1rem;              /* <- controls spacing between links */
-      list-style: none;       /* remove bullets */
-      margin: 0;              /* remove default ul margin */
-      padding: 0;             /* remove default ul padding */
-    }
-    .nav-links li { margin: 0; }  /* normalize li */
-
-    /* ===== Nav link effects (same as Projects) ===== */
+    /* ===== Nav link effects ===== */
     .nav-links a {
       position: relative;
       padding: 0.5rem 1rem;
@@ -41,10 +17,12 @@
       text-decoration: none;
       color: inherit;
     }
-    .nav-links a:hover { transform: scale(1.1); }
+    .nav-links a:hover {
+      transform: scale(1.1);
+    }
     .nav-links a.active {
-      background-color: #FFD700;
-      color: #00539c;
+      background-color: #FFD700; /* Gold */
+      color: #00539c;            /* Blue text */
       border-radius: 4px;
       animation: highlightBox 0.4s ease-out;
     }
@@ -52,185 +30,10 @@
       from { transform: scale(0.8); opacity: 0; }
       to   { transform: scale(1);   opacity: 1; }
     }
-
-    /* ===== Menu Toggle (mobile) ===== */
-    .menu-toggle {
-      display: none; /* default hidden on desktop */
-      cursor: pointer;
-      border: 2px solid #00539c;
-      background: #fff;
-      color: #00539c;
-      font-size: 1.6rem;
-      line-height: 1;
-      padding: 0.4rem 0.6rem;
-      border-radius: 8px;
-      z-index: 1101;            /* ABOVE the slide-in menu (which is 1000) */
-      position: relative;       /* ensure z-index applies */
-    }
-
-    /* ===== Center the hero text and main content ===== */
-    .hero { position: relative; background:#f6f9ff; padding: 3rem 0; }
-    .hero-content { text-align: center; }
-    #content {
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    /* ===== Section headings larger ===== */
-    #content h3 {
-      font-size: 1.75rem;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    /* ===== Requirements section styling ===== */
-    .requirements-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
-      margin: 2rem 0 3rem;
-    }
-    .requirement-card {
-      background: #00539c;
-      border: 2px solid #FFD700;
-      border-radius: 8px;
-      padding: 1.25rem;
-      width: 260px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .requirement-card:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .requirement-card h4 {
-      margin: 0 0 .5rem;
-      font-size: 1.75rem;
-      color: #FFD700;
-    }
-    .requirement-card p {
-      margin: 0;
-      font-size: 1.1rem;
-      line-height: 1.35;
-      color: #FFD700;
-    }
-
-    /* ===== Strikes & Standings styling ===== */
-    .strike-lists {
-      text-align: center;
-      margin: 0 auto 3rem;
-      max-width: 700px;
-    }
-    .strike-lists h4 {
-      color: #00539c;
-      margin: .6rem 0;
-      font-size: 1.25rem;
-    }
-    .strike-lists ul {
-      margin: .25rem 0 1.25rem 0;
-      list-style-position: inside;
-      padding: 0;
-    }
-    .strike-lists li {
-      margin-bottom: .45rem;
-      font-size: 1.1rem;
-    }
-
-    /* ===== Embedded PDF Section ===== */
-    #newsletter {
-      background: #f4f4f4;
-      padding: 2rem 0;
-      text-align: center;
-      margin-top: 2rem;
-    }
-    #newsletter h3 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .pdf-embed iframe {
-      width: 100%;
-      height: 600px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .pdf-link {
-      display: none;
-      font-size: 1rem;
-    }
-    .pdf-link a {
-      color: #00539c;
-      text-decoration: underline;
-    }
-
-    /* ===== Responsive tweaks ===== */
-    @media (max-width: 768px) {
-      .menu-toggle { display: inline-block; }
-
-      /* Slide-in menu */
-      .nav-links {
-        position: fixed;
-        top: 60px;
-        left: -100%;
-        width: 100%;
-        background: #fff;
-        flex-direction: column;
-        transition: left 0.3s ease;
-        padding: 1rem 0;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        z-index: 1000; /* below the toggle (1101) so toggle stays clickable */
-        gap: 0;           /* stacked menu: no horizontal gap needed */
-      }
-      .nav-links.active { left: 0; }
-      .nav-links li {
-        margin: 0.5rem 0;
-        text-align: center;
-      }
-
-      .hero-content h1 { font-size: 1.5rem; }
-      .hero-content p { font-size: 1rem; }
-
-      #content { padding: 0 1rem; }
-
-      .requirements-grid { gap: 1rem; }
-      .requirement-card {
-        width: 100%;
-        max-width: 320px;
-        margin: 0 auto;
-      }
-
-      .strike-lists { padding: 0 1rem; }
-      .strike-lists h4 { font-size: 1.1rem; }
-      .strike-lists li { font-size: 1rem; }
-
-      .pdf-embed { display: none; }
-      .pdf-link { display: block; }
-      #newsletter h3 { font-size: 1.5rem; }
-    }
-
-    @media (min-width: 769px) {
-      .nav-links {
-        position: static;
-        flex-direction: row;
-        box-shadow: none;
-        background: transparent;
-        left: auto;
-      }
-      .nav-links li { margin: 0; }
-      .pdf-embed { display: block; }
-      .pdf-link { display: none; }
-    }
-
-    /* Footer */
-    footer { padding: 1.5rem 0; background:#fff; color:#333; border-top: 1px solid #eee; }
-    .social-icons { display:flex; gap:.75rem; justify-content:center; margin-top:.5rem; }
-    .social-link { color:#00539c; text-decoration:none; }
   </style>
 </head>
 <body>
-  <!-- ========== NAVBAR / HEADER ========== -->
+  <!-- ========== NAVBAR / HEADER (identical structure/classes) ========== -->
   <header>
     <div class="container nav-container">
       <a href="index.html" class="logo"><span>Bridgeland Key Club</span></a>
@@ -243,8 +46,7 @@
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-      <!-- Use a button for better accessibility & tap targets -->
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation">☰</button>
+      <div class="menu-toggle" id="menuToggle">☰</div>
     </div>
   </header>
 
@@ -257,23 +59,10 @@
     </div>
   </section>
 
-  <!-- ========== MAIN CONTENT ========== -->
+  <!-- ========== MAIN CONTENT (JS-injected, like your pattern) ========= -->
   <section class="section">
     <div class="container">
       <div id="content"></div>
-    </div>
-  </section>
-
-  <!-- ========== EMBEDDED PDF / DOWNLOAD LINK ======== -->
-  <section id="newsletter">
-    <div class="container">
-      <h3>Latest Newsletter</h3>
-      <div class="pdf-embed">
-        <iframe src="assets/August Bear Buzz PDF.pdf" title="August Bear Buzz Newsletter"></iframe>
-      </div>
-      <div class="pdf-link">
-        <p>Download the latest newsletter: <a href="assets/FILE_3794.pdf" download>Click here to download (PDF)</a></p>
-      </div>
     </div>
   </section>
 
@@ -289,14 +78,14 @@
     </div>
   </footer>
 
-  <!-- ===== SCRIPTS ===== -->
+  <!-- ===== SCRIPTS (identical header logic as Projects) ===== -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ===== Nav: Highlight active link & toggle mobile menu =====
+      // Highlight active nav link
       let path = window.location.pathname
-        .replace(/\/$/, '')
-        .replace(/\.html$/, '')
-        .replace(/^\//, '');
+        .replace(/\/$/, '')      // strip trailing slash
+        .replace(/\.html$/, '')  // strip .html
+        .replace(/^\//, '');     // strip leading slash
 
       document.querySelectorAll('.nav-links a').forEach(link => {
         const hrefPage = link.getAttribute('href')
@@ -308,24 +97,11 @@
         }
       });
 
+      // Mobile menu toggle (relies on CSS in css/style.css just like Projects)
       const menuToggle = document.getElementById('menuToggle');
       const navLinks   = document.querySelector('.nav-links');
-
-      // Toggle slide-in menu on mobile
-      function toggleMenu() {
-        const isOpen = navLinks.classList.toggle('active');
-        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      }
-      menuToggle.addEventListener('click', toggleMenu);
-
-      // Close menu after tapping any link on mobile
-      navLinks.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-          if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
-            navLinks.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-          }
-        });
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
       });
 
       // Inject About content
@@ -341,41 +117,6 @@
         <p>
           <strong>Our Values:</strong> Service, Leadership, Inclusivity, Integrity, Teamwork.
         </p>
-
-        <h3>Meeting &amp; Social Requirements</h3>
-        <div class="requirements-grid">
-          <div class="requirement-card">
-            <h4>15 Hours</h4>
-            <p>are required for credit<br/>this semester</p>
-          </div>
-          <div class="requirement-card">
-            <h4>30 Hours Total</h4>
-            <p>are needed this academic<br/>year for credit</p>
-          </div>
-          <div class="requirement-card">
-            <h4>2 Socials</h4>
-            <p>are required this<br/>semester</p>
-          </div>
-          <div class="requirement-card">
-            <h4>4 Total Social</h4>
-            <p>must be attended this<br/>school year</p>
-          </div>
-        </div>
-
-        <h3>Strikes &amp; Standings</h3>
-        <div class="strike-lists">
-          <h4>Members can be given strikes for the following reasons:</h4>
-          <ul>
-            <li>Not attending or being late to an event you signed up for</li>
-            <li>Cancelling less than 24 hours prior to an event</li>
-          </ul>
-          <h4>Members will be immediately terminated and stricken from the record for the following reasons:</h4>
-          <ul>
-            <li>Receiving three strikes</li>
-            <li>Fraudulently reporting attendance / donations</li>
-            <li>Academic dishonesty</li>
-          </ul>
-        </div>
       `;
     });
   </script>
