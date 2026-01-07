@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bridgeland Key Club | Events</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/style.css" />
 
   <!-- Inline CSS for animated “active” box around current nav link, calendar, events styling, and mobile nav -->
   <style>
@@ -17,18 +18,30 @@
       text-decoration: none;
       color: inherit;
     }
+
     .nav-links a:hover {
       transform: scale(1.1);
     }
+
     .nav-links a.active {
-      background-color: #FFD700; /* Gold */
-      color: #00539c;            /* Blue text */
+      background-color: #FFD700;
+      /* Gold */
+      color: #00539c;
+      /* Blue text */
       border-radius: 4px;
       animation: highlightBox 0.4s ease-out;
     }
+
     @keyframes highlightBox {
-      from { transform: scale(0.8); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
 
@@ -50,12 +63,55 @@
       margin: 0;
       flex: 1 1 260px;
       max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
+
+    .events-list-container {
+      max-height: 200px;
+      /* Show roughly 3-4 items */
+      overflow: hidden;
+      position: relative;
+      transition: max-height 0.3s ease;
+    }
+
+    .events-list-container.scrollable {
+      max-height: 400px;
+      /* Taller, but restricted */
+      overflow-y: auto;
+    }
+
+    .events-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .show-more-btn {
+      background: none;
+      border: 1px solid #00539c;
+      color: #00539c;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      align-self: flex-start;
+      margin-top: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .show-more-btn:hover {
+      background-color: #00539c;
+      color: #fff;
+    }
+
     .events-list li {
       margin-bottom: 0.75rem;
       font-size: 1rem;
       color: #333;
     }
+
     .events-list li strong {
       color: #00539c;
     }
@@ -68,8 +124,9 @@
       border-radius: 8px;
       overflow: hidden;
       background: #fff;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     }
+
     .calendar-header {
       display: flex;
       align-items: center;
@@ -80,6 +137,7 @@
       font-size: 1.25rem;
       font-weight: bold;
     }
+
     .calendar-nav-button {
       background: none;
       border: none;
@@ -88,13 +146,16 @@
       cursor: pointer;
       transition: transform 0.2s ease;
     }
+
     .calendar-nav-button:hover {
       transform: scale(1.2);
     }
+
     .calendar-table {
       width: 100%;
       border-collapse: collapse;
     }
+
     .calendar-table th,
     .calendar-table td {
       width: 14.28%;
@@ -102,42 +163,148 @@
       padding: 0.75rem 0;
       border: 1px solid #eee;
     }
+
     .calendar-table th {
       background-color: #f5f5f5;
       font-weight: normal;
       color: #333;
     }
+
     .calendar-day {
       position: relative;
       cursor: default;
     }
+
     .calendar-day.event {
-      background-color: #FFD700;
+      background-color: #FFEC8B;
       color: #00539c;
       font-weight: bold;
       border-radius: 4px;
       cursor: pointer;
     }
+
     .calendar-day.today {
       border: 2px solid #00539c;
       border-radius: 4px;
     }
 
     /* ===== Responsive tweaks ===== */
-    @media (max-width: 600px) {
+    /* ===== Responsive tweaks ===== */
+    @media (max-width: 768px) {
+      .events-calendar-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .events-list,
+      .events-wrapper,
+      .calendar-container {
+        flex: 1 1 100%;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .events-list-container {
+        max-height: 250px;
+        /* Slightly more visible space on mobile */
+      }
+
       .calendar-table th,
       .calendar-table td {
-        padding: 0.5rem 0;
+        padding: 0.5rem 0.2rem;
+        font-size: 0.9rem;
+        /* Smaller text for calendar */
       }
+
       .calendar-header {
-        font-size: 1rem;
+        font-size: 1.1rem;
+        padding: 0.5rem;
       }
+
       .calendar-nav-button {
-        font-size: 1rem;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        /* Larger touch target */
+      }
+
+      /* Modal adjustments for mobile */
+      .modal-content {
+        width: 95%;
+        margin: 40% auto;
+        /* Center vertically better on small screens */
+        padding: 15px;
+      }
+
+      .container {
+        padding: 0 1rem;
+        /* Ensure side padding on container */
+      }
+    }
+
+    /* ===== Modal Styles ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 8px;
+      position: relative;
+      animation: slideIn 0.3s;
+    }
+
+    .close-btn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+      }
+
+      to {
+        transform: translateY(0);
       }
     }
   </style>
 </head>
+
 <body>
   <!-- ========== NAVBAR / HEADER ========== -->
   <header>
@@ -170,7 +337,15 @@
     <div class="container">
       <div class="events-calendar-wrapper">
         <!-- Upcoming Events Box -->
-        <ul class="events-list" id="eventsList"></ul>
+        <div class="events-wrapper">
+          <div class="events-list-container" id="eventsListContainer">
+            <ul class="events-list" id="eventsList">
+              <li><strong>Soccer Concessions:</strong> Dates/times not listed on the flyer. Shifts are 1.5–2 hours per
+                spot.</li>
+            </ul>
+          </div>
+          <button id="showMoreEventsBtn" class="show-more-btn">Show More</button>
+        </div>
 
         <!-- Calendar Container -->
         <div class="calendar-container">
@@ -182,8 +357,13 @@
           <table class="calendar-table">
             <thead>
               <tr>
-                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
-                <th>Thu</th><th>Fri</th><th>Sat</th>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
               </tr>
             </thead>
             <tbody id="calendarBody"></tbody>
@@ -192,6 +372,17 @@
       </div>
     </div>
   </section>
+
+  </section>
+
+  <!-- ========== EVENT POPUP MODAL ========== -->
+  <div id="eventModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModalBtn">&times;</span>
+      <h3 style="margin-top: 0; color: #00539c;">Event Details</h3>
+      <p id="modalText"></p>
+    </div>
+  </div>
 
   <!-- ========== FOOTER ========== -->
   <footer>
@@ -225,20 +416,36 @@
       });
 
       const menuToggle = document.getElementById('menuToggle');
-      const navLinks   = document.querySelector('.nav-links');
+      const navLinks = document.querySelector('.nav-links');
       menuToggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
       });
 
       // —— EVENTS LIST & CALENDAR ——
       const events = {
+        '2026-01-07': 'Community of Faith (COF) (8:45 AM – 12:45 PM or 5:45 PM – 8:30 PM)',
+        '2026-01-08': 'Hope Chest (3:00 PM – 5:00 PM or 3:30 PM – 5:30 PM)',
+        '2026-01-11': 'Community of Faith (COF) (8:45 AM – 12:45 PM or 5:45 PM – 8:30 PM)',
+        '2026-01-13': 'Hope Chest (3:00 PM – 5:00 PM or 3:30 PM – 5:30 PM)',
+        '2026-01-14': 'Community of Faith (COF) (8:45 AM – 12:45 PM or 5:45 PM – 8:30 PM)',
+        '2026-01-15': 'Hope Chest (3:00 PM – 5:00 PM or 3:30 PM – 5:30 PM)',
+        '2026-01-17': 'MESA (7:00 AM – 11:30 AM)',
+        '2026-01-18': 'MESA (1:30 PM – 3:30 PM) / Community of Faith (COF) (8:45 AM – 12:45 PM or 5:45 PM – 8:30 PM)',
+        '2026-01-20': 'Hope Chest (3:00 PM – 5:00 PM or 3:30 PM – 5:30 PM)',
+        '2026-01-21': 'Community of Faith (COF) (8:45 AM – 12:45 PM or 5:45 PM – 8:30 PM)',
+        '2026-01-22': 'Hope Chest (3:00 PM – 5:00 PM or 3:30 PM – 5:30 PM)',
+        '2026-01-25': 'Community of Faith (COF) (8:45 AM – 12:45 PM or 5:45 PM – 8:30 PM)',
+        '2026-01-27': 'Hope Chest (3:00 PM – 5:00 PM or 3:30 PM – 5:30 PM)',
+        '2026-01-28': 'Community of Faith (COF) (8:45 AM – 12:45 PM or 5:45 PM – 8:30 PM)',
+        '2026-01-29': 'Hope Chest (3:00 PM – 5:00 PM or 3:30 PM – 5:30 PM)',
+        '2026-01-30': 'Ault Mother/Son Dance (Ault) (5:00 PM – 9:00 PM)',
       };
 
       // Populate upcoming events list
       const eventsListEl = document.getElementById('eventsList');
       Object.keys(events).sort().forEach(dateStr => {
-        const [y,m,d] = dateStr.split('-');
-        const formatted = new Date(y,m-1,d).toLocaleDateString('en-US', {
+        const [y, m, d] = dateStr.split('-');
+        const formatted = new Date(y, m - 1, d).toLocaleDateString('en-US', {
           month: 'long', day: 'numeric', year: 'numeric'
         });
         eventsListEl.insertAdjacentHTML('beforeend',
@@ -247,19 +454,19 @@
       });
 
       // Calendar setup
-      let currentYear  = new Date().getFullYear();
+      let currentYear = new Date().getFullYear();
       let currentMonth = new Date().getMonth();
 
       function renderCalendar(year, month) {
         const header = document.getElementById('calendarHeaderText');
-        const body   = document.getElementById('calendarBody');
+        const body = document.getElementById('calendarBody');
         body.innerHTML = '';
         header.textContent = new Date(year, month).toLocaleDateString('en-US', {
           month: 'long', year: 'numeric'
         });
 
         const firstDayIdx = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month+1, 0).getDate();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
         let date = 1;
 
         for (let r = 0; r < 6; r++) {
@@ -271,11 +478,11 @@
             } else {
               td.textContent = date;
               td.classList.add('calendar-day');
-              const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(date).padStart(2,'0')}`;
+              const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
               if (events[iso]) {
                 td.classList.add('event');
                 td.title = events[iso];
-                td.onclick = () => alert(events[iso]);
+                td.onclick = () => openModal(events[iso]);
               }
               const today = new Date();
               if (
@@ -306,7 +513,37 @@
       };
 
       renderCalendar(currentYear, currentMonth);
+
+      // Modal Logic
+      const modal = document.getElementById('eventModal');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const modalText = document.getElementById('modalText');
+
+      function openModal(text) {
+        modalText.textContent = text;
+        modal.style.display = "block";
+      }
+
+      closeModalBtn.onclick = function () {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      // Show More Button Logic
+      const showMoreBtn = document.getElementById('showMoreEventsBtn');
+      const eventsContainer = document.getElementById('eventsListContainer');
+
+      showMoreBtn.addEventListener('click', () => {
+        eventsContainer.classList.add('scrollable');
+        showMoreBtn.style.display = 'none'; // Hide button after expanding
+      });
     });
   </script>
 </body>
+
 </html>
