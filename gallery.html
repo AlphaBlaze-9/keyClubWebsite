@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,18 +18,30 @@
       text-decoration: none;
       color: inherit;
     }
+
     .nav-links a:hover {
       transform: scale(1.1);
     }
+
     .nav-links a.active {
-      background-color: #FFD700; /* Gold */
-      color: #00539c;            /* Blue text */
+      background-color: #FFD700;
+      /* Gold */
+      color: #00539c;
+      /* Blue text */
       border-radius: 4px;
       animation: highlightBox 0.4s ease-out;
     }
+
     @keyframes highlightBox {
-      from { transform: scale(0.8); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     /* ===== Carousel styling ===== */
@@ -38,18 +51,21 @@
       position: relative;
       overflow: hidden;
     }
+
     .carousel-track {
       display: flex;
       transition: transform 0.5s ease-in-out;
     }
+
     .carousel-slide {
       flex: 0 0 600px;
       margin: 0 20px;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       background: #ddd;
     }
+
     .carousel-slide img {
       width: 100%;
       height: auto;
@@ -57,11 +73,12 @@
       object-fit: cover;
       display: block;
     }
+
     .carousel-button {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background-color: rgba(255,255,255,0.8);
+      background-color: rgba(255, 255, 255, 0.8);
       border: none;
       border-radius: 50%;
       width: 40px;
@@ -70,13 +87,21 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+
     .carousel-button:focus {
       outline: none;
     }
-    .carousel-button.prev { left: 10px; }
-    .carousel-button.next { right: 10px; }
+
+    .carousel-button.prev {
+      left: 10px;
+    }
+
+    .carousel-button.next {
+      right: 10px;
+    }
+
     .carousel-button svg {
       width: 20px;
       height: 20px;
@@ -94,6 +119,7 @@
       border-radius: 8px;
       cursor: pointer;
     }
+
     .submit-box p {
       margin: 0;
       font-size: 1.1rem;
@@ -107,25 +133,44 @@
         max-width: 100%;
         padding: 0 1rem;
       }
+
       .carousel-slide {
         flex: 0 0 90% !important;
         margin: 0 5% !important;
       }
     }
+
     @media (max-width: 480px) {
       .carousel-container {
         padding: 0 0.5rem;
       }
+
       .carousel-slide {
         flex: 0 0 100% !important;
         margin: 0 !important;
       }
+
       .carousel-slide img {
         max-height: 250px;
       }
+
+
+    }
+
+    /* ===== Scroll Animations ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
+
 <body>
   <!-- ========== NAVBAR / HEADER ========== -->
   <header>
@@ -154,29 +199,29 @@
   </section>
 
   <!-- ========== GALLERY CAROUSEL & SUBMIT BOX ========== -->
-  <section class="section">
+  <section class="section fade-in">
     <div class="container">
       <div class="carousel-container">
         <button class="carousel-button prev" id="prevBtn">
-          <svg viewBox="0 0 20 20"><path d="M12.5 16.5l-1.06 1.06L4.38 11.5l7.06-6.06L12.5 6.88 7.62 11.5l4.88 5z"/></svg>
+          <svg viewBox="0 0 20 20">
+            <path d="M12.5 16.5l-1.06 1.06L4.38 11.5l7.06-6.06L12.5 6.88 7.62 11.5l4.88 5z" />
+          </svg>
         </button>
         <div class="carousel-track" id="carouselTrack">
           <!-- Slides populated by JS -->
         </div>
         <button class="carousel-button next" id="nextBtn">
-          <svg viewBox="0 0 20 20"><path d="M7.5 3.5l1.06-1.06L15.62 8.5l-7.06 6.06L7.5 13.12 12.38 8.5 7.5 3.5z"/></svg>
+          <svg viewBox="0 0 20 20">
+            <path d="M7.5 3.5l1.06-1.06L15.62 8.5l-7.06 6.06L7.5 13.12 12.38 8.5 7.5 3.5z" />
+          </svg>
         </button>
       </div>
       <p style="margin-top: 1rem; color: #555; text-align: center;">
         * Click the arrows to slide through photos.
       </p>
 
-      <a
-        href="https://drive.google.com/drive/folders/1D2xyWppH4um-MZcyVmzUrb5pNZ2ftnKuP9f1XQUk4HTI1IE4ngnFx3tFi1gymIwFJ1hCJSq0?usp=sharing"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="text-decoration: none;"
-      >
+      <a href="https://drive.google.com/drive/folders/1D2xyWppH4um-MZcyVmzUrb5pNZ2ftnKuP9f1XQUk4HTI1IE4ngnFx3tFi1gymIwFJ1hCJSq0?usp=sharing"
+        target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
         <div class="submit-box">
           <p>Submit your photos</p>
         </div>
@@ -216,7 +261,7 @@
       });
 
       const menuToggle = document.getElementById('menuToggle');
-      const navLinks   = document.querySelector('.nav-links');
+      const navLinks = document.querySelector('.nav-links');
       menuToggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
       });
@@ -235,6 +280,7 @@
         const img = document.createElement('img');
         img.src = `${folderPath}KC${i}.jpg`;
         img.alt = `KC Photo ${i}`;
+        img.loading = "lazy"; // Optimize loading
         slideDiv.appendChild(img);
         track.appendChild(slideDiv);
       }
@@ -262,7 +308,20 @@
       nextButton.addEventListener('click', () => moveToSlide(currentIndex + 1));
 
       setupCarousel();
+
+      // Scroll Animation Observer
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     });
   </script>
 </body>
+
 </html>
